@@ -17,4 +17,10 @@ A working installation of Parallels Server is required.}
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  s.add_development_dependency 'cucumber', '>= 1.1.4'
+  s.add_development_dependency 'aruba', '>= 0.4.11'
+  s.add_development_dependency 'aruba-doubles', '>= 0.2.1'
+  s.add_development_dependency 'guard-cucumber', '>= 0.7.5'
+  s.add_development_dependency 'rb-fsevent', '>= 0.9.0' if RUBY_PLATFORM =~ /darwin/i
 end
