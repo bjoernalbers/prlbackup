@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
-require 'prlbackup/cli'
+$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'prlbackup'
 
 PrlBackup::CLI.run

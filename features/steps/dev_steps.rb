@@ -1,3 +1,7 @@
+Before do
+  @aruba_timeout_seconds = 5
+end
+
 Given /^the following virtual machines?:$/ do |vm_table|
   format = "%-40s%-13s%-16s%s"
   all_vm = [format % %w{UUID STATUS IP_ADDR NAME"}]

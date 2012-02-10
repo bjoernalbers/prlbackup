@@ -1,5 +1,12 @@
-require "prlbackup/version"
+require 'mixlib/cli'
+require 'logger'
+require 'prlbackup/version'
+require 'prlbackup/cli'
+require 'prlbackup/virtual_machine'
+require 'prlbackup/command'
 
 module PrlBackup
-  # Your code goes here...
+  def logger
+    @logger ||= Logger.new(STDOUT)
+  end
 end
