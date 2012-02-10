@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'prlbackup/cli'
+
+PrlBackup::CLI.run

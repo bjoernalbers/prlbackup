@@ -4,7 +4,7 @@ require "prlbackup/version"
 
 Gem::Specification.new do |s|
   s.name        = "prlbackup"
-  s.version     = Prlbackup::VERSION
+  s.version     = PrlBackup::VERSION
   s.authors     = ["Björn Albers"]
   s.email       = ["bjoernalbers@googlemail.com"]
   s.homepage    = "https://github.com/bjoernalbers/#{s.name}"
@@ -20,7 +20,7 @@ A working installation of Parallels Server is required.}
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'
-  s.add_development_dependency 'aruba-doubles', '>= 0.2.1'
+  s.add_development_dependency 'aruba-doubles', '>= 0.3.0a'
   s.add_development_dependency 'guard-cucumber', '>= 0.7.5'
   s.add_development_dependency 'rb-fsevent', '>= 0.9.0' if RUBY_PLATFORM =~ /darwin/i
 end

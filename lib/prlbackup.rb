@@ -1,5 +1,5 @@
 require "prlbackup/version"
 
-module Prlbackup
+module PrlBackup
   # Your code goes here...
 end
