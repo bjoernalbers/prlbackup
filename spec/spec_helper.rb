@@ -1,0 +1,3 @@
+require 'prlbackup'
+
+include PrlBackup
