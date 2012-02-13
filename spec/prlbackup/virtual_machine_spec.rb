@@ -18,7 +18,7 @@ describe VirtualMachine do
 
   describe '.all_uuids' do
     it 'should request a list of all virtual machines via prlctl' do
-      Command2.should_receive(:run).with('prlctl', 'list', '--all').and_return(stub(:stdout => ""))
+      Command.should_receive(:run).with('prlctl', 'list', '--all').and_return(stub(:stdout => ""))
       VirtualMachine.all_uuids
     end
 
@@ -30,7 +30,7 @@ describe VirtualMachine do
       all_uuids = ["{264eab18-563e-4ccb-935d-50269130c592}",
         "{b0749d89-27c5-4d0f-88e4-b8aeab95cd35}",
         "{b893da77-f465-4de4-ab3f-f77e16f0c485}"]
-      Command2.stub(:run).and_return(stub(:stdout => stdout))
+      Command.stub(:run).and_return(stub(:stdout => stdout))
       VirtualMachine.all_uuids.should eql(all_uuids)
     end
   end

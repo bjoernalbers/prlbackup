@@ -1,26 +1,23 @@
 module PrlBackup
   class Command
-    class << self
-      include PrlBackup
-      
-      [:list, :stop, :backup, :start].each do |action|
-        define_method action do |args|
-          run(action, args)
-        end
-      end
+    attr_reader :stdout
 
-      def run(action, *args)
-        cmd = (["prlctl", action] + args).compact * ' '
-        logger.debug("Running `#{cmd}`:")
-        out = `#{cmd} 2>&1`.strip
-        unless $?.success?
-            error_msg = "`#{cmd}` failed with exit status #{$?.exitstatus}: #{out}"
-          logger.error(error_msg)
-          raise(PrlctlError, error_msg)
-        end
-        logger.debug(out)
-        out
+    class << self
+      def run(*cmd)
+        self.new(*cmd).run
       end
+    end
+    
+    def initialize(*cmd)
+      @cmd = cmd
+      @stdout = @stderr = @status = nil
+    end
+
+    def run
+      pid, stdin, stdout, stderr = Open4::popen4(*@cmd)
+      ignored, status = Process::waitpid2(pid)
+      @stdout = stdout.read
+      self
     end
   end
 end

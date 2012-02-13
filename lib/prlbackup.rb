@@ -5,7 +5,6 @@ require 'prlbackup/version'
 require 'prlbackup/cli'
 require 'prlbackup/virtual_machine'
 require 'prlbackup/command'
-require 'prlbackup/command2'
 
 module PrlBackup
   def logger

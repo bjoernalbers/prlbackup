@@ -8,13 +8,13 @@ module PrlBackup
       end
 
       def all_uuids
-        Command2.run('prlctl', 'list', '--all').stdout.split("\n").grep(/^(\{[a-f0-9-]+\})\s/){$1}
+        Command.run('prlctl', 'list', '--all').stdout.split("\n").grep(/^(\{[a-f0-9-]+\})\s/){$1}
       end
     end
 
     def initialize(name)
       @name = name
-      @command = Command2
+      @command = Command
       @shutdown = nil
     end
 
