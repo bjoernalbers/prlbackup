@@ -16,8 +16,14 @@ module PrlBackup
     end
 
     def run(argv)
-      args = parse_options(argv)
-      VirtualMachine.new(args.first).backup
+      arguments = parse_options(argv)
+      if config[:all]
+        VirtualMachine.each do |vm|
+          vm.backup
+        end
+      else
+        VirtualMachine.new(arguments.first).backup
+      end
     end
   end
 end

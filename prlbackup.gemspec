@@ -19,6 +19,7 @@ A working installation of Parallels Server is required.}
   s.require_paths = ["lib"]
 
   s.add_dependency 'mixlib-cli', '>= 1.2.0'
+  s.add_dependency 'open4', '>= 1.3.0'
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'

@@ -1,5 +1,5 @@
 Before do
-  @aruba_timeout_seconds = 5
+  @aruba_timeout_seconds = 30
 end
 
 Given /^the following virtual machines?:$/ do |vm_table|
