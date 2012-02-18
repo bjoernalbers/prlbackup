@@ -36,7 +36,7 @@ Given /^the following virtual machines?:$/ do |vm_table|
   
   all_vm = all_vm.join("\n")
   steps %Q{
-    Given I could run `prlctl list --all` with stdout:
+    Given I could run `prlctl list --all --output uuid` with stdout:
       """
 	    #{all_vm}
 	    """

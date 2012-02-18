@@ -10,20 +10,20 @@ Feature: Development Steps
 		  | {97351580-afd7-4aff-9960-814196b28e37} | stopped | Mac OS X Lion |
 		  | {423dba54-45e3-46f1-9aa2-87d61ce6b757} | running | Windows XP    |
 		  | {55aae003-298d-4199-82ed-23658a218605} | stopped | Ubuntu        |
-		When I run `prlctl list --all`
+		When I run `prlctl list --all --output uuid`
 		Then the stdout should contain:
 			"""
-			UUID                                    STATUS       IP_ADDR         NAME
+			UUID
 			"""
 		And the stdout should contain:
 			"""
-			{97351580-afd7-4aff-9960-814196b28e37}  stopped      -               Mac OS X Lion
+			{97351580-afd7-4aff-9960-814196b28e37}
 			"""
 		And the stdout should contain:
 			"""
-			{423dba54-45e3-46f1-9aa2-87d61ce6b757}  running      -               Windows XP
+			{423dba54-45e3-46f1-9aa2-87d61ce6b757}
 			"""
 		And the stdout should contain:
 			"""
-			{55aae003-298d-4199-82ed-23658a218605}  stopped      -               Ubuntu
+			{55aae003-298d-4199-82ed-23658a218605}
 			"""

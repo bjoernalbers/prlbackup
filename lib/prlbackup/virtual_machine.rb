@@ -2,13 +2,16 @@ module PrlBackup
   class VirtualMachine
     include PrlBackup
 
+    attr_reader :name
+    
     class << self
       def each
-        all_uuids.each { |uuid| yield(new(uuid)) }
+        all.each { |virtual_machine| yield(virtual_machine) }
       end
 
-      def all_uuids
-        Command.run('prlctl', 'list', '--all').stdout.split("\n").grep(/^(\{[a-f0-9-]+\})\s/){$1}
+      def all
+        cmd = %w{prlctl list --all --output uuid}
+        Command.run(*cmd).stdout.split("\n").grep(/(\{[a-f0-9-]+\})/) { new($1) }
       end
     end
 
