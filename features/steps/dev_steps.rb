@@ -12,11 +12,13 @@ Given /^the following virtual machines?:$/ do |vm_table|
       Given I could run `prlctl list --info "#{name}"` with stdout:
         """
         ID: #{uuid}
+        Name: #{name}
         State: running
         """
       And I could run `prlctl list --info #{uuid}` with stdout:
         """
         ID: #{uuid}
+        Name: #{name}
         State: running
         """
       And I could run `prlctl stop #{uuid}` with stdout:

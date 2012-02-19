@@ -52,7 +52,7 @@ Feature: Create Backups
 		  | {97351580-afd7-4aff-9960-814196b28e37} | stopped | Mac OS X Lion |
 		  | {423dba54-45e3-46f1-9aa2-87d61ce6b757} | stopped | Windows XP    |
 		  | {55aae003-298d-4199-82ed-23658a218605} | stopped | Ubuntu        |
-		When I successfully run `prlbackup --all --exclude "{423dba54-45e3-46f1-9aa2-87d61ce6b757}"`
+		When I successfully run `prlbackup --all --exclude "Windows XP"`
 		Then `prlctl backup \{423dba54-45e3-46f1-9aa2-87d61ce6b757\}` should not have been run
 		And the output should contain "{97351580-afd7-4aff-9960-814196b28e37} successfully created"
 		And the output should not contain "{423dba54-45e3-46f1-9aa2-87d61ce6b757} successfully created"

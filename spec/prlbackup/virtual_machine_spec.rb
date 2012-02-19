@@ -43,7 +43,22 @@ describe VirtualMachine do
     it 'should query a list of all virtual machines by UUID' do
       cmd = %w{prlctl list --all --output uuid}
       Command.should_receive(:run).with(*cmd).and_return(stub(:stdout => @stdout))
+      VirtualMachine.stub(:new)
       VirtualMachine.all
+    end
+  end
+
+  describe '#name' do
+    it 'should return the virtual machines name' do
+      Command.stub(:run).and_return(stub(:stdout => "Name: foo"))
+      VirtualMachine.new(nil).name.should eql('foo')
+    end
+  end
+
+  describe '#uuid' do
+    it 'should return the virtual machines UUID' do
+      Command.stub(:run).and_return(stub(:stdout => 'ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}'))
+      VirtualMachine.new(nil).uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
     end
   end
 end
