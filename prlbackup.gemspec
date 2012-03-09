@@ -20,11 +20,14 @@ A working installation of Parallels Server is required.}
 
   s.add_dependency 'mixlib-cli', '>= 1.2.0'
   s.add_dependency 'open4', '>= 1.3.0'
+  s.add_dependency 'gem-man', '>= 0.3.0'
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'
-  s.add_development_dependency 'aruba-doubles', '>= 0.3.0a'
+  s.add_development_dependency 'aruba-doubles', '>= 0.2.2'
   s.add_development_dependency 'guard-cucumber', '>= 0.7.5'
   s.add_development_dependency 'guard-rspec', '>= 0.5.1'
+  s.add_development_dependency 'guard-ronn', '>= 0.1.2'
+  s.add_development_dependency 'ronn', '>= 0.7.3'
   s.add_development_dependency 'rb-fsevent', '>= 0.9.0' if RUBY_PLATFORM =~ /darwin/i
 end
