@@ -40,7 +40,7 @@ Backup all but the given virtual machines by argument\.
 .
 .TP
 \fB\-f\fR, \fB\-\-full\fR
-Create full backups (by default incremental backups are created)\. Note that the first backup for a VM is always a full backup, despide of this option\.
+Create full backups (by default incremental backups are created)\. Note that the first backup for a VM is always a full backup despide of this option\.
 .
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
@@ -51,8 +51,8 @@ Show which commands are executed\.
 Don\'t to anything with the VMs, just pretend to\.
 .
 .TP
-\fB\-d\fR \fIdays\fR, \fB\-\-delete\fR=\fIdays\fR
-Delete old backups after \fIdays\fR\. #TODO: Rework this!
+\fB\-k\fR \fInumber_of_full_backups\fR, \fB\-\-keep\-only\fR=\fInumber_of_full_backups\fR
+Delete the oldest full backup(s) until only \fInumber_of_full_backups\fR exist\. This cleanup action will be executed for each VM right after creating the corresponding backup but only if the backup was successfully created\. Incremental backups are automatically deleted by Parallels Server when their full backup is deleted\.
 .
 .SH "EXAMPLES"
 Display short help:
@@ -127,6 +127,19 @@ Show which commands would have been run when backing up all VMs:
 .nf
 
 $ prlbackup \-\-dry\-run \-\-verbose \-\-all
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Create the weekly full backup for all VMs and delete backups older than four weeks:
+.
+.IP "" 4
+.
+.nf
+
+$ prlbackup \-\-all \-\-keep\-only=5
 .
 .fi
 .

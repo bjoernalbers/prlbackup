@@ -29,7 +29,7 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
 
   * `-f`, `--full`:
     Create full backups (by default incremental backups are created).
-    Note that the first backup for a VM is always a full backup, despide
+    Note that the first backup for a VM is always a full backup despide
     of this option.
 
   * `-v`, `--verbose`:
@@ -38,8 +38,12 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
   * `-n`, `--dry-run`:
     Don't to anything with the VMs, just pretend to.
 
-  * `-d` <days>, `--delete`=<days>:
-    Delete old backups after <days>. #TODO: Rework this!
+  * `-k` <number_of_full_backups>, `--keep-only`=<number_of_full_backups>:
+    Delete the oldest full backup(s) until only <number_of_full_backups> exist.
+    This cleanup action will be executed for each VM right after creating the
+    corresponding backup but only if the backup was successfully created.
+    Incremental backups are automatically deleted by Parallels Server when their
+    full backup is deleted.
 
 ## EXAMPLES
 
@@ -66,6 +70,10 @@ Backup all but not the given VMs:
 Show which commands would have been run when backing up all VMs:
 
     $ prlbackup --dry-run --verbose --all
+
+Create the weekly full backup for all VMs and delete backups older than four weeks:
+
+    $ prlbackup --all --keep-only=5
 
 ## SEE ALSO
 
