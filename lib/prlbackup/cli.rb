@@ -2,6 +2,13 @@ module PrlBackup
   class CLI
     include Mixlib::CLI
 
+    option :full,
+      :long         => '--full',
+      :short        => '-f',
+      :description  => 'Create full backup',
+      :boolean      => true,
+      :default      => false
+
     option :all,
       :short => "-a",
       :long => "--all",
@@ -32,7 +39,7 @@ module PrlBackup
           vm.backup unless arguments.any? { |a| vm.name == a || vm.uuid == a }
         end
       else
-        VirtualMachine.new(arguments.first).backup
+        VirtualMachine.new(arguments.first).backup(config[:full])
       end
     end
   end

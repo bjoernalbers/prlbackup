@@ -18,18 +18,19 @@ module PrlBackup
     end
 
     def initialize(name_or_uuid)
-      @info = Command.run('prlctl', 'list', '--info', name_or_uuid).stdout
-      @command = Command
+      @name_or_uuid = name_or_uuid
       @shutdown = nil
     end
 
     # Create backup of the virtual machine.
     # @note A running virtual machine will be stopped during the backup!
-    def backup
-      @command.run('prlctl', 'stop', uuid) if shutdown?
-      @command.run('prlctl', 'backup', uuid)
-      @command.run('prlctl', 'start', uuid) if shutdown?
-      logger.info("Incremental backup of #{name} #{uuid} successfully created")
+    def backup(full=false)
+      run('prlctl', 'stop', @name_or_uuid) if shutdown?
+      cmd = ['prlctl', 'backup', @name_or_uuid]
+      cmd << '--full' if full
+      run(*cmd)
+      run('prlctl', 'start', @name_or_uuid) if shutdown?
+      #logger.info("Incremental backup of #{name} #{uuid} successfully created")
     end
 
     def shutdown?
@@ -38,20 +39,29 @@ module PrlBackup
     end
 
     def stopped?
-      cmd = ['prlctl', 'list', "--info", uuid]
-      @command.run(*cmd).stdout[/^State:\s+stopped$/]
+      cmd = ['prlctl', 'list', "--info", @name_or_uuid]
+      run(*cmd).stdout[/^State:\s+stopped$/]
     end
 
     # Return the virtual machine's name.
     # @return [String]
     def name
-      @info[/^Name:\s+(.+)$/,1]
+      info[/^Name:\s+(.+)$/,1]
     end
 
     # Return the virtual machine's UUID.
     # @return [String]
     def uuid
-      @info[/^ID:\s+(\{[a-f0-9-]+\})$/,1]
+      info[/^ID:\s+(\{[a-f0-9-]+\})$/,1]
+    end
+
+    def run(*args)
+      Command.run(*args)
+    end
+
+    # Get infos about the VM
+    def info
+      @info ||= run('prlctl', 'list', '--info', @name_or_uuid).stdout
     end
   end
 end

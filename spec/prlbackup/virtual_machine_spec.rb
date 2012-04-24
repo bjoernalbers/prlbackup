@@ -3,7 +3,29 @@ require 'spec_helper'
 module PrlBackup
   describe VirtualMachine do
     describe '#backup' do
-      it 'should ...'
+      before do
+        @name = 'Alpha'
+        @vm = VirtualMachine.new(@name)
+        @vm.stub(:shutdown?).and_return(false)
+      end
+
+      it 'should backup the VM by name' do
+        @vm.should_receive(:run).with('prlctl', 'backup', @name)
+        @vm.backup
+      end
+
+      it 'should stop the VM during the backup' do
+        @vm.stub(:shutdown?).and_return(true)
+        @vm.should_receive(:run).with('prlctl', 'stop', @name).ordered
+        @vm.should_receive(:run).with('prlctl', 'backup', @name).ordered
+        @vm.should_receive(:run).with('prlctl', 'start', @name).ordered
+        @vm.backup
+      end
+
+      it 'should allow to create full backups' do
+        @vm.should_receive(:run).with('prlctl', 'backup', @name, '--full')
+        @vm.backup(true)
+      end
     end
 
     describe '.each' do
