@@ -1,0 +1,6 @@
+# exceptions should go to stderr | normal logging stuff should go to stdout (why? )
+# flush, because we are logging
+# delete old project (parallels-backup)
+# how to layout the libs and stuff (class and module naming, etc.)?
+# what output should go into a log format?
+# log format should be human-readable by default but also easily parsable (backup RESULT by VM, possible with backup-id / vmname vmid)

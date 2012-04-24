@@ -1,0 +1,105 @@
+prlbackup(1) -- awesome backup tool for virtual machines on Parallels Server
+============================================================================
+
+## SYNOPSIS
+
+`prlbackup` `-h`|`--help`<br>
+`prlbackup` [<OPTIONS>...] <vm_id|vm_name>...<br>
+`prlbackup` [<OPTIONS>...] `-a`|`--all`<br>
+`prlbackup` [<OPTIONS>...] `-e`|`--exclude` <vm_id|vm_name>...
+
+## DESCRIPTION
+
+`prlbackup` simplifies the backup of one or multiple Virtual Machines running
+on Parallels Server by stoping VMs during backup and deleting old backups on demand.
+A working installation of Parallels Server is required.
+
+prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
+
+## OPTIONS
+
+  * `-h`, `--help`:
+    Display a short help (same as when called without any options at all).
+
+  * `-a`, `--all`:
+    Backup all virtual machines which are registered in Parallels Server.
+
+  * `-e`, `--exclude`:
+    Backup all but the given virtual machines by argument.
+
+  * `-f`, `--full`:
+    Create full backups (by default incremental backups are created).
+    Note that the first backup for a VM is always a full backup despide
+    of this option.
+
+  * `-v`, `--verbose`:
+    Show which commands are executed.
+
+  * `-n`, `--dry-run`:
+    Don't to anything with the VMs, just pretend to.
+
+  * `-k` <number_of_full_backups>, `--keep-only`=<number_of_full_backups>:
+    Delete the oldest full backup(s) until only <number_of_full_backups> exist.
+    This cleanup action will be executed for each VM right after creating the
+    corresponding backup but only if the backup was successfully created.
+    Incremental backups are automatically deleted by Parallels Server when their
+    full backup is deleted.
+
+## EXAMPLES
+
+Display short help:
+
+    $ prlbackup
+
+Backup VMs by name:
+
+    $ prlbackup Alpha Bravo Charlie
+
+Backup a VM by id:
+
+    $ prlbackup "{97351580-afd7-4aff-9960-814196b28e37}"
+
+Create full backups of all VMs
+
+    $ prlbackup --full --all
+
+Backup all but not the given VMs:
+
+    $ prlbackup --exclude Delta Echo
+
+Show which commands would have been run when backing up all VMs:
+
+    $ prlbackup --dry-run --verbose --all
+
+Create the weekly full backup for all VMs and delete backups older than four weeks:
+
+    $ prlbackup --all --keep-only=5
+
+## SEE ALSO
+
+  * prlctl(8)
+  * [prlbackup's homepage](https://github.com/bjoernalbers/prlbackup)
+
+## COPYRIGHT
+
+Copyright (c) 2012 Bjoern Albers (<bjoernalbers@googlemail.com>)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

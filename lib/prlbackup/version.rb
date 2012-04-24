@@ -1,3 +1,3 @@
-module Prlbackup
-  VERSION = "0.0.0"
+module PrlBackup
+  VERSION = "0.0.2"
 end

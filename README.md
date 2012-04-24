@@ -3,13 +3,6 @@ prlbackup
 
 An awesome command-line app to backup Virtual Machines from Parallels Server.
 
-Description
------------
-
-prlbackup simplifies the backup of one or multiple Virtual Machines running
-on Parallels Server by stoping VMs during backup and deleting old backups on demand.
-A working installation of Parallels Server is required.
-
 Installation
 ------------
 
@@ -19,11 +12,6 @@ Usage
 -----
 
 Take a look at `gem man prlbackup` or see the online documenation.
-
-Caveats
--------
-
-prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
 
 Note on Patches/Pull Requests
 -----------------------------
