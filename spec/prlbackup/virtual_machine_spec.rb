@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe VirtualMachine do
+describe PrlBackup::VirtualMachine do
   describe '.each' do
     it 'should iterate over all virtual machines' do
       virtual_machines = []
@@ -40,7 +40,7 @@ describe VirtualMachine do
       VirtualMachine.all
     end
 
-    it 'should query a list of all virtual machines by UUID' do
+    it 'should query a list of all virtual machines via command' do
       cmd = %w{prlctl list --all --output uuid}
       Command.should_receive(:run).with(*cmd).and_return(stub(:stdout => @stdout))
       VirtualMachine.stub(:new)
@@ -49,14 +49,14 @@ describe VirtualMachine do
   end
 
   describe '#name' do
-    it 'should return the virtual machines name' do
+    it "should return the virtual machine's name" do
       Command.stub(:run).and_return(stub(:stdout => "Name: foo"))
       VirtualMachine.new(nil).name.should eql('foo')
     end
   end
 
   describe '#uuid' do
-    it 'should return the virtual machines UUID' do
+    it "should return the virtual machine's UUID" do
       Command.stub(:run).and_return(stub(:stdout => 'ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}'))
       VirtualMachine.new(nil).uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
     end

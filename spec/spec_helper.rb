@@ -1,3 +1,1 @@
 require 'prlbackup'
-
-include PrlBackup
