@@ -29,5 +29,6 @@ A working installation of Parallels Server is required.}
   s.add_development_dependency 'guard-rspec', '>= 0.5.1'
   s.add_development_dependency 'guard-ronn', '>= 0.1.2'
   s.add_development_dependency 'ronn', '>= 0.7.3'
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'rb-fsevent', '>= 0.9.0' if RUBY_PLATFORM =~ /darwin/i
 end
