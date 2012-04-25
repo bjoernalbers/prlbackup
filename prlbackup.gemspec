@@ -24,7 +24,7 @@ A working installation of Parallels Server is required.}
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'
-  s.add_development_dependency 'aruba-doubles', '~> 1.2.0'
+  s.add_development_dependency 'aruba-doubles', '~> 1.2.1'
   s.add_development_dependency 'guard-cucumber', '>= 0.7.5'
   s.add_development_dependency 'guard-rspec', '>= 0.5.1'
   s.add_development_dependency 'guard-ronn', '>= 0.1.2'
