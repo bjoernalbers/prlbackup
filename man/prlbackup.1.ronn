@@ -6,7 +6,7 @@ prlbackup(1) -- awesome backup tool for virtual machines on Parallels Server
 `prlbackup` `-h`|`--help`<br>
 `prlbackup` [<OPTIONS>...] <vm_id|vm_name>...<br>
 `prlbackup` [<OPTIONS>...] `-a`|`--all`<br>
-`prlbackup` [<OPTIONS>...] `-e`|`--exclude` <vm_id|vm_name>...
+`prlbackup` [<OPTIONS>...] `-a`|`--all` `-e`|`--exclude` <vm_id|vm_name>...
 
 ## DESCRIPTION
 
@@ -25,7 +25,8 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
     Backup all virtual machines which are registered in Parallels Server.
 
   * `-e`, `--exclude`:
-    Backup all but the given virtual machines by argument.
+    Backup all but the given virtual machines (only applicable in
+    combination with option `--all`!).
 
   * `-f`, `--full`:
     Create full backups (by default incremental backups are created).
