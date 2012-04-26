@@ -10,18 +10,18 @@ module PrlBackup
       :default      => false
 
     option :all,
-      :short => "-a",
-      :long => "--all",
-      :description => "Backup all virtual machines",
-      :boolean => true,
-      :default => false
+      :long         => '--all',
+      :short        => '-a',
+      :description  => 'Backup all virtual machines',
+      :boolean      => true,
+      :default      => false
 
     option :exclude,
-      :short => "-e",
-      :long => "--exclude",
-      :description => "Exclude selected virtual machines from backup",
-      :boolean => true,
-      :default => false
+      :long         => '--exclude',
+      :short        => '-e',
+      :description  => 'Exclude selected virtual machines from backup',
+      :boolean      => true,
+      :default      => false
 
     class << self
       def run
