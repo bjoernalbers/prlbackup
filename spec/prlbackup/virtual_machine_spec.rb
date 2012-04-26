@@ -7,23 +7,25 @@ module PrlBackup
         @name = 'Alpha'
         @vm = VirtualMachine.new(@name)
         @vm.stub(:shutdown?).and_return(false)
+        @vm.stub(:uuid).and_return('{deadbeef}')
       end
 
-      it 'should backup the VM by name' do
-        @vm.should_receive(:run).with('prlctl', 'backup', @name)
+      it 'should backup the VM by UUID' do
+        @vm.should_receive(:uuid).and_return('{deadbeef}')
+        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}')
         @vm.backup
       end
 
       it 'should stop the VM during the backup' do
         @vm.stub(:shutdown?).and_return(true)
-        @vm.should_receive(:run).with('prlctl', 'stop', @name).ordered
-        @vm.should_receive(:run).with('prlctl', 'backup', @name).ordered
-        @vm.should_receive(:run).with('prlctl', 'start', @name).ordered
+        @vm.should_receive(:run).with('prlctl', 'stop', '{deadbeef}').ordered
+        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}').ordered
+        @vm.should_receive(:run).with('prlctl', 'start', '{deadbeef}').ordered
         @vm.backup
       end
 
       it 'should allow to create full backups' do
-        @vm.should_receive(:run).with('prlctl', 'backup', @name, '--full')
+        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}', '--full')
         @vm.backup(true)
       end
     end
