@@ -3,6 +3,8 @@ module PrlBackup
     include PrlBackup
 
     class << self
+      include Enumerable
+
       # Iterate over all virtual machines.
       # @param [Block]
       def each
@@ -64,9 +66,9 @@ module PrlBackup
       @info ||= run('prlctl', 'list', '--info', @name_or_uuid).stdout
     end
 
-    # Is equal if object is equal with the virtual machine's name or uuid.
-    def ==(obj)
-      name == obj || uuid == obj
+    # Is equal if the virtual machines UUIDs are equal.
+    def ==(other_vm)
+      uuid == other_vm.uuid
     end
   end
 end

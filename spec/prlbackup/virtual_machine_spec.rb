@@ -91,19 +91,21 @@ module PrlBackup
 
     describe '#==' do
       before do
-        @vm = VirtualMachine.new('foo')
+        @vm = VirtualMachine.new('vm')
+        @other_vm = VirtualMachine.new('other_vm')
+        @vm.stub(:uuid).and_return('{just-an-uuid}')
       end
 
-      it 'should check equality by name' do
-        @vm.stub(:name).and_return('foo')
-        @vm.should == 'foo'
-        @vm.should_not == 'bar'
+      it 'should be true when UUIDs are equal' do
+        @other_vm.stub(:uuid).and_return('{just-an-uuid}')
+        @vm.should == @other_vm
+        @other_vm.should == @vm
       end
 
-      it 'should check equality by uuid' do
-        @vm.stub(:uuid).and_return('{deadbeef}')
-        @vm.should == '{deadbeef}'
-        @vm.should_not == '{decafbad}'
+      it 'should be false when UUIDs are not equal' do
+        @other_vm.stub(:uuid).and_return('{a-completely-different-uuid}')
+        @vm.should_not == @other_vm
+        @other_vm.should_not == @vm
       end
     end
   end

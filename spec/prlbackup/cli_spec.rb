@@ -45,10 +45,19 @@ module PrlBackup
       end
 
       context 'with options --all and --exclude' do
-        it 'should backup all but not the selected virtual machines' do
+        before do
           VirtualMachine.should_receive(:all).and_return([@vm, @vm])
-          @vm.should_receive(:==).with('foo').and_return(true, false)
-          @vm.should_receive(:backup).once
+        end
+
+        it 'should not backup virtual machines which are given' do
+          @cli.stub(:given_virtual_machines).and_return([@vm])
+          @vm.should_not_receive(:backup)
+          @cli.run %w[--all --exclude foo]
+        end
+
+        it 'should backup virtual machines which are not given' do
+          @cli.stub(:given_virtual_machines).and_return([])
+          @vm.should_receive(:backup).twice
           @cli.run %w[--all --exclude foo]
         end
       end
