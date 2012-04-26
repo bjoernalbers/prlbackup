@@ -88,5 +88,23 @@ module PrlBackup
         VirtualMachine.new(nil).uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
       end
     end
+
+    describe '#==' do
+      before do
+        @vm = VirtualMachine.new('foo')
+      end
+
+      it 'should check equality by name' do
+        @vm.stub(:name).and_return('foo')
+        @vm.should == 'foo'
+        @vm.should_not == 'bar'
+      end
+
+      it 'should check equality by uuid' do
+        @vm.stub(:uuid).and_return('{deadbeef}')
+        @vm.should == '{deadbeef}'
+        @vm.should_not == '{decafbad}'
+      end
+    end
   end
 end

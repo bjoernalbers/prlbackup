@@ -33,16 +33,8 @@ Feature: Create Backups
     And the double `prlctl backup {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should have been run
     And the double `prlctl backup {55aae003-298d-4199-82ed-23658a218605}` should have been run
 
-  #  @foo
-  #  @announce-stdout
-  #  Scenario: Exclude VM from backup
-  #    Given the following virtual machines:
-  #      | uuid                                   | status  | name          |
-  #      | {97351580-afd7-4aff-9960-814196b28e37} | stopped | Mac OS X Lion |
-  #      | {423dba54-45e3-46f1-9aa2-87d61ce6b757} | stopped | Windows XP    |
-  #      | {55aae003-298d-4199-82ed-23658a218605} | stopped | Ubuntu        |
-  #    When I successfully run `prlbackup --all --exclude "Windows XP"`
-  #    Then `prlctl backup \{423dba54-45e3-46f1-9aa2-87d61ce6b757\}` should not have been run
-  #    And the output should contain "{97351580-afd7-4aff-9960-814196b28e37} successfully created"
-  #    And the output should not contain "{423dba54-45e3-46f1-9aa2-87d61ce6b757} successfully created"
-  #    And the output should contain "{55aae003-298d-4199-82ed-23658a218605} successfully created"
+  Scenario: Exclude VMs from Backup
+    When I successfully run `prlbackup --all --exclude "Mac OS X Lion"`
+    Then the double `prlctl backup {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should have been run
+    And the double `prlctl backup {55aae003-298d-4199-82ed-23658a218605}` should have been run
+    But the double `prlctl backup {97351580-afd7-4aff-9960-814196b28e37}` should not have been run

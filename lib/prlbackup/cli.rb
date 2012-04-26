@@ -24,8 +24,8 @@ module PrlBackup
       :default => false
 
     class << self
-      def run(argv=ARGV)
-        self.new.run(argv)
+      def run
+        self.new.run(ARGV)
       end
     end
 
@@ -34,9 +34,9 @@ module PrlBackup
       if config[:all]
         VirtualMachine.each do |vm|
           if config[:exclude]
-            next if [vm.name, vm.uuid].any? { |name_or_uuid| arguments.include? name_or_uuid }
+            next if arguments.any? { |arg| vm == arg }
           end
-          vm.backup unless arguments.any? { |a| vm.name == a || vm.uuid == a }
+          vm.backup
         end
       else
         VirtualMachine.new(arguments.first).backup(config[:full])

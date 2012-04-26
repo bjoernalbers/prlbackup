@@ -63,5 +63,10 @@ module PrlBackup
     def info
       @info ||= run('prlctl', 'list', '--info', @name_or_uuid).stdout
     end
+
+    # Is equal if object is equal with the virtual machine's name or uuid.
+    def ==(obj)
+      name == obj || uuid == obj
+    end
   end
 end
