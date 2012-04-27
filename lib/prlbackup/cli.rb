@@ -30,6 +30,12 @@ module PrlBackup
       :boolean      => true,
       :default      => false
 
+    option :keep_only,
+      :long         => '--keep-only NUMBER_OF_FULL_BACKUPS',
+      :short        => '-k NUMBER_OF_FULL_BACKUPS',
+      :description  => 'Keep only N full backups (delete the oldest!)',
+      :proc         => Proc.new { |k| k.to_i }
+
     class << self
       # Run the backups with given options and arguments.
       def run
@@ -40,7 +46,10 @@ module PrlBackup
     # Parse options and create safe backups for the selected virtual machines.
     def run(argv)
       parse_options!(argv)
-      selected_virtual_machines.each { |vm| vm.safe_backup }
+      selected_virtual_machines.each do |vm|
+        vm.safe_backup
+        vm.cleanup if config[:keep_only]
+      end
     end
 
   private

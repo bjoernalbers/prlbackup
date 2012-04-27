@@ -105,6 +105,77 @@ module PrlBackup
       end
     end
 
+    describe '#cleanup' do
+      before do
+        @old_backup = double('old backup')
+        @new_backup = double('new backup')
+        @vm = VirtualMachine.new('foo')
+        @vm.stub(:uuid).and_return('{deadbeef}')
+        @vm.stub(:full_backups).and_return([@old_backup, @new_backup])
+      end
+
+      it 'should delete 2 backups when there are 2 more backups than to keep' do
+        @vm.stub(:config).and_return({:keep_only => 0})
+        @vm.should_receive(:delete_backup).with(@old_backup).once
+        @vm.should_receive(:delete_backup).with(@new_backup).once
+        @vm.cleanup
+      end
+
+      it 'should delete the oldest backup when there is 1 more backup than to keep' do
+        @vm.stub(:config).and_return({:keep_only => 1})
+        @vm.should_receive(:delete_backup).with(@old_backup).once
+        @vm.should_not_receive(:delete_backup).with(@new_backup)
+        @vm.cleanup
+      end
+
+      it 'should not delete any backups when there are as many backups as to keep' do
+        @vm.stub(:config).and_return({:keep_only => 2})
+        @vm.should_not_receive(:delete_backup)
+        @vm.cleanup
+      end
+    end
+
+    describe '#delete_backup' do
+      before do
+        @vm = VirtualMachine.new('foo')
+        @vm.stub(:uuid).and_return('{deadbeef}')
+      end
+
+      it 'should delete the virtual machines backup' do
+        @vm.should_receive(:maybe_run).with('prlctl', 'backup-delete', '--tag', '{some-backup-uuid}')
+        @vm.delete_backup('{some-backup-uuid}')
+      end
+    end
+
+    describe '#full_backups' do
+      before do
+        @vm = VirtualMachine.new('foo')
+        @vm.stub(:uuid).and_return('{deadbeef}')
+        output = double('output')
+        output.stub(:stdout).and_return('prlctl backup-list {bf364fd4-8f6b-4032-818d-4958f9c0945b}
+ID Backup_ID                              Node                 Date                 Type       Size
+{deadbeef} {ae6565dd-7f8f-42cb-a088-8b1d98f5160b} psfm.example.com 02/27/2012 13:11:32     f 10537597943
+{deadbeef} {ae6565dd-7f8f-42cb-a088-8b1d98f5160b}.2 psfm.example.com 02/27/2012 15:26:02     i 2951747588
+{deadbeef} {5f9dd263-ec56-443e-9917-dab9b40d3027} psfm.example.com 03/13/2012 18:06:00     f 11748325372
+{deadbeef} {2aeb4ada-6623-4087-9fc5-f09aeaafd81e} psfm.example.com 03/23/2012 21:25:50     f 47315014888
+{deadbeef} {68f7e154-6755-46f6-ad1f-a79c5f488f35} psfm.example.com 03/28/2012 15:09:05     f 23462808438
+{deadbeef} {68f7e154-6755-46f6-ad1f-a79c5f488f35}.2 psfm.example.com 04/05/2012 17:21:12     i 12841952117')
+        @vm.stub(:run).and_return(output)
+      end
+
+      it 'should query the backup list by CLI' do
+        @vm.should_receive(:run).with('prlctl', 'backup-list', '{deadbeef}')
+        @vm.full_backups
+      end
+
+      it 'should return a list of the virtual machines full backup UUIDs' do
+        @vm.full_backups.should eql(['{ae6565dd-7f8f-42cb-a088-8b1d98f5160b}',
+                                     '{5f9dd263-ec56-443e-9917-dab9b40d3027}',
+                                     '{2aeb4ada-6623-4087-9fc5-f09aeaafd81e}',
+                                     '{68f7e154-6755-46f6-ad1f-a79c5f488f35}'])
+      end
+    end
+
     describe '#name' do
       it "should return the virtual machine's name" do
         Command.stub(:run).and_return(stub(:stdout => "Name: foo"))
