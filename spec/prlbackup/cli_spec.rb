@@ -23,7 +23,7 @@ module PrlBackup
     describe '#run' do
       before do
         @vm = double('vm')
-        @vm.stub(:backup)
+        @vm.stub(:safe_backup)
         VirtualMachine.stub(:new).and_return(@vm)
         @cli = CLI.new
       end
@@ -31,7 +31,7 @@ module PrlBackup
       context 'without options' do
         it 'should backup each selected virtual machine' do
           VirtualMachine.should_receive(:new).with('foo').and_return(@vm)
-          @vm.should_receive(:backup).once
+          @vm.should_receive(:safe_backup).once
           @cli.run %w[foo]
         end
       end
@@ -39,7 +39,7 @@ module PrlBackup
       context 'with option --all' do
         it 'should backup all virtual machines' do
           VirtualMachine.should_receive(:all).and_return([@vm, @vm])
-          @vm.should_receive(:backup).twice
+          @vm.should_receive(:safe_backup).twice
           @cli.run %w[--all]
         end
       end
@@ -51,13 +51,13 @@ module PrlBackup
 
         it 'should not backup virtual machines which are given' do
           @cli.stub(:given_virtual_machines).and_return([@vm])
-          @vm.should_not_receive(:backup)
+          @vm.should_not_receive(:safe_backup)
           @cli.run %w[--all --exclude foo]
         end
 
         it 'should backup virtual machines which are not given' do
           @cli.stub(:given_virtual_machines).and_return([])
-          @vm.should_receive(:backup).twice
+          @vm.should_receive(:safe_backup).twice
           @cli.run %w[--all --exclude foo]
         end
       end

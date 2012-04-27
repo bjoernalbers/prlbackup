@@ -24,19 +24,33 @@ module PrlBackup
       @shutdown = nil
     end
 
-    # Create backup of the virtual machine.
-    # @note A running virtual machine will be stopped during the backup!
-    def backup(full=false)
-      run('prlctl', 'stop', uuid) if shutdown?
+    def config
+      PrlBackup.config
+    end
+
+    # Start the virtual machine.
+    def start
+      run('prlctl', 'start', uuid)
+    end
+
+    # Stop the virtual machine.
+    def stop
+      run('prlctl', 'stop', uuid)
+    end
+
+    # Backup the virtual machine.
+    def backup
       cmd = ['prlctl', 'backup', uuid]
-      cmd << '--full' if full
+      cmd << '--full' if config[:full]
       run(*cmd)
-      run('prlctl', 'start', uuid) if shutdown?
-      #run('prlctl', 'stop', @name_or_uuid) if shutdown?
-      #cmd = ['prlctl', 'backup', @name_or_uuid]
-      #cmd << '--full' if full
-      #run(*cmd)
-      #run('prlctl', 'start', @name_or_uuid) if shutdown?
+    end
+
+    # Safely backup the virtual machine.
+    # @note A running virtual machine will be stopped during the backup!
+    def safe_backup(full=false)
+      stop if shutdown?
+      backup
+      start if shutdown?
       ###logger.info("Incremental backup of #{name} #{uuid} successfully created")
     end
 

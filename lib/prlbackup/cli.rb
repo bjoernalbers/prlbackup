@@ -30,15 +30,19 @@ module PrlBackup
       end
     end
 
-    # Parse options and run backups.
+    # Parse options and create safe backups for the selected virtual machines.
     def run(argv)
-      @arguments = parse_options(argv)
-      selected_virtual_machines.each do |vm|
-        vm.backup(config[:full])
-      end
+      parse_options!(argv)
+      selected_virtual_machines.each { |vm| vm.safe_backup }
     end
 
   private
+
+    # Parse options and set global configuration.
+    def parse_options!(argv)
+      @arguments = parse_options(argv)
+      PrlBackup.config = config
+    end
 
     # The list of selected virtual machines which will be backed up.
     # Note that this selection is based on the options and arguments.

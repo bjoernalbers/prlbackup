@@ -49,18 +49,45 @@ module PrlBackup
       end
     end
 
-    describe '#backup' do
+    describe '#config' do
+      before do
+        @vm = VirtualMachine.new('foo')
+      end
+
+      it 'should return the global config' do
+        PrlBackup.should_receive(:config).and_return({:foo => 'bar'})
+        @vm.config.should eql({:foo => 'bar'})
+      end
+    end
+
+    %w[start stop backup].each do |cmd|
+      describe "##{cmd}" do
+        before do
+          @vm = VirtualMachine.new('foo')
+          @vm.stub(:uuid).and_return('{deadbeef}')
+          @vm.stub(:config).and_return({:full => false})
+        end
+
+        it "should #{cmd} the virtual machine" do
+          @vm.should_receive(:run).with('prlctl', cmd, '{deadbeef}')
+          @vm.send(cmd)
+        end
+      end
+    end
+
+    describe '#safe_backup' do
       before do
         @name = 'Alpha'
         @vm = VirtualMachine.new(@name)
         @vm.stub(:shutdown?).and_return(false)
         @vm.stub(:uuid).and_return('{deadbeef}')
+        @vm.stub(:config).and_return({:full => false})
       end
 
       it 'should backup the VM by UUID' do
         @vm.should_receive(:uuid).and_return('{deadbeef}')
         @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}')
-        @vm.backup
+        @vm.safe_backup
       end
 
       it 'should stop the VM during the backup' do
@@ -68,12 +95,13 @@ module PrlBackup
         @vm.should_receive(:run).with('prlctl', 'stop', '{deadbeef}').ordered
         @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}').ordered
         @vm.should_receive(:run).with('prlctl', 'start', '{deadbeef}').ordered
-        @vm.backup
+        @vm.safe_backup
       end
 
       it 'should allow to create full backups' do
+        @vm.stub(:config).and_return({:full => true})
         @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}', '--full')
-        @vm.backup(true)
+        @vm.safe_backup
       end
     end
 
