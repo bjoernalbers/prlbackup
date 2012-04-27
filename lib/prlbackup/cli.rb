@@ -23,6 +23,13 @@ module PrlBackup
       :boolean      => true,
       :default      => false
 
+    option :dry_run,
+      :long         => '--dry-run',
+      :short        => '-n',
+      :description  => 'Do not stop, backup or start any virtual machines.',
+      :boolean      => true,
+      :default      => false
+
     class << self
       # Run the backups with given options and arguments.
       def run

@@ -44,3 +44,10 @@ Feature: Create Backups
     Then the double `prlctl backup {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should have been run
     And the double `prlctl backup {55aae003-298d-4199-82ed-23658a218605}` should have been run
     But the double `prlctl backup {97351580-afd7-4aff-9960-814196b28e37}` should not have been run
+
+  Scenario: Dry-run
+    When I successfully run `prlbackup --dry-run "Windows XP"`
+    Then the double `prlctl list --info "Windows XP"` should have been run
+    But the double `prlctl stop {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should not have been run
+    And the double `prlctl backup {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should not have been run
+    And the double `prlctl start {423dba54-45e3-46f1-9aa2-87d61ce6b757}` should not have been run

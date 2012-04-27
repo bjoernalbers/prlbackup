@@ -30,19 +30,19 @@ module PrlBackup
 
     # Start the virtual machine.
     def start
-      run('prlctl', 'start', uuid)
+      maybe_run('prlctl', 'start', uuid)
     end
 
     # Stop the virtual machine.
     def stop
-      run('prlctl', 'stop', uuid)
+      maybe_run('prlctl', 'stop', uuid)
     end
 
     # Backup the virtual machine.
     def backup
       cmd = ['prlctl', 'backup', uuid]
       cmd << '--full' if config[:full]
-      run(*cmd)
+      maybe_run(*cmd)
     end
 
     # Safely backup the virtual machine.
@@ -76,6 +76,12 @@ module PrlBackup
       info[/^ID:\s+(\{[a-f0-9-]+\})$/,1]
     end
 
+    # Run the command unless option --dry-run is given.
+    def maybe_run(*args)
+      run(*args) unless config[:dry_run]
+    end
+
+    # Run the command.
     def run(*args)
       Command.run(*args)
     end

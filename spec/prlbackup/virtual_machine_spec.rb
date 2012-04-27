@@ -69,7 +69,7 @@ module PrlBackup
         end
 
         it "should #{cmd} the virtual machine" do
-          @vm.should_receive(:run).with('prlctl', cmd, '{deadbeef}')
+          @vm.should_receive(:maybe_run).with('prlctl', cmd, '{deadbeef}')
           @vm.send(cmd)
         end
       end
