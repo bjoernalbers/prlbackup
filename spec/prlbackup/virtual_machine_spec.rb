@@ -86,16 +86,17 @@ module PrlBackup
     end
 
     describe '#safe_backup' do
-      before do
-        @vm.stub(:shutdown?).and_return(false)
-        @vm.stub(:config).and_return({:full => false})
+      it 'should stop the VM during the backup' do
+        @vm.stub(:stopped?).and_return(false)
+        @vm.should_receive(:stop).ordered
+        @vm.should_receive(:backup).ordered
+        @vm.should_receive(:start).ordered
+        @vm.safe_backup
       end
 
-      it 'should stop the VM during the backup' do
-        @vm.stub(:shutdown?).and_return(true)
-        @vm.should_receive(:run).with('prlctl', 'stop', @uuid).ordered
-        @vm.should_receive(:run).with('prlctl', 'backup', @uuid).ordered
-        @vm.should_receive(:run).with('prlctl', 'start', @uuid).ordered
+      it 'should not stop the VM when already shutdown' do
+        @vm.stub(:stopped?).and_return(true)
+        @vm.should_receive(:backup)
         @vm.safe_backup
       end
     end
