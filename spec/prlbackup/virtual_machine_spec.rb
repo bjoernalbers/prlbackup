@@ -2,6 +2,12 @@ require 'spec_helper'
 
 module PrlBackup
   describe VirtualMachine do
+    before do
+      @uuid = '{deadbeef}'
+      @vm = VirtualMachine.new('foo')
+      @vm.stub(:uuid).and_return(@uuid)
+    end
+
     describe '.each' do
       it 'should iterate over all virtual machines' do
         virtual_machines = []
@@ -50,57 +56,46 @@ module PrlBackup
     end
 
     describe '#config' do
-      before do
-        @vm = VirtualMachine.new('foo')
-      end
-
       it 'should return the global config' do
         PrlBackup.should_receive(:config).and_return({:foo => 'bar'})
         @vm.config.should eql({:foo => 'bar'})
       end
     end
 
-    %w[start stop backup].each do |cmd|
+    %w[start stop].each do |cmd|
       describe "##{cmd}" do
-        before do
-          @vm = VirtualMachine.new('foo')
-          @vm.stub(:uuid).and_return('{deadbeef}')
-          @vm.stub(:config).and_return({:full => false})
-        end
-
         it "should #{cmd} the virtual machine" do
-          @vm.should_receive(:maybe_run).with('prlctl', cmd, '{deadbeef}')
+          @vm.should_receive(:maybe_run).with('prlctl', cmd, @uuid)
           @vm.send(cmd)
         end
       end
     end
 
-    describe '#safe_backup' do
-      before do
-        @name = 'Alpha'
-        @vm = VirtualMachine.new(@name)
-        @vm.stub(:shutdown?).and_return(false)
-        @vm.stub(:uuid).and_return('{deadbeef}')
-        @vm.stub(:config).and_return({:full => false})
+    describe '#backup' do
+      it 'should create an incremental backup by default' do
+        @vm.stub(:config).and_return({})
+        @vm.should_receive(:maybe_run).with('prlctl', 'backup', @uuid)
+        @vm.backup
       end
 
-      it 'should backup the VM by UUID' do
-        @vm.should_receive(:uuid).and_return('{deadbeef}')
-        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}')
-        @vm.safe_backup
+      it 'should create a full backup when configured' do
+        @vm.stub(:config).and_return({:full => true})
+        @vm.should_receive(:maybe_run).with('prlctl', 'backup', @uuid, '--full')
+        @vm.backup
+      end
+    end
+
+    describe '#safe_backup' do
+      before do
+        @vm.stub(:shutdown?).and_return(false)
+        @vm.stub(:config).and_return({:full => false})
       end
 
       it 'should stop the VM during the backup' do
         @vm.stub(:shutdown?).and_return(true)
-        @vm.should_receive(:run).with('prlctl', 'stop', '{deadbeef}').ordered
-        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}').ordered
-        @vm.should_receive(:run).with('prlctl', 'start', '{deadbeef}').ordered
-        @vm.safe_backup
-      end
-
-      it 'should allow to create full backups' do
-        @vm.stub(:config).and_return({:full => true})
-        @vm.should_receive(:run).with('prlctl', 'backup', '{deadbeef}', '--full')
+        @vm.should_receive(:run).with('prlctl', 'stop', @uuid).ordered
+        @vm.should_receive(:run).with('prlctl', 'backup', @uuid).ordered
+        @vm.should_receive(:run).with('prlctl', 'start', @uuid).ordered
         @vm.safe_backup
       end
     end
@@ -109,8 +104,6 @@ module PrlBackup
       before do
         @old_backup = double('old backup')
         @new_backup = double('new backup')
-        @vm = VirtualMachine.new('foo')
-        @vm.stub(:uuid).and_return('{deadbeef}')
         @vm.stub(:full_backups).and_return([@old_backup, @new_backup])
       end
 
@@ -136,11 +129,6 @@ module PrlBackup
     end
 
     describe '#delete_backup' do
-      before do
-        @vm = VirtualMachine.new('foo')
-        @vm.stub(:uuid).and_return('{deadbeef}')
-      end
-
       it 'should delete the virtual machines backup' do
         @vm.should_receive(:maybe_run).with('prlctl', 'backup-delete', '--tag', '{some-backup-uuid}')
         @vm.delete_backup('{some-backup-uuid}')
@@ -149,8 +137,6 @@ module PrlBackup
 
     describe '#full_backups' do
       before do
-        @vm = VirtualMachine.new('foo')
-        @vm.stub(:uuid).and_return('{deadbeef}')
         output = double('output')
         output.stub(:stdout).and_return('prlctl backup-list {bf364fd4-8f6b-4032-818d-4958f9c0945b}
 ID Backup_ID                              Node                 Date                 Type       Size
@@ -164,7 +150,7 @@ ID Backup_ID                              Node                 Date             
       end
 
       it 'should query the backup list by CLI' do
-        @vm.should_receive(:run).with('prlctl', 'backup-list', '{deadbeef}')
+        @vm.should_receive(:run).with('prlctl', 'backup-list', @uuid)
         @vm.full_backups
       end
 
@@ -192,13 +178,11 @@ ID Backup_ID                              Node                 Date             
 
     describe '#==' do
       before do
-        @vm = VirtualMachine.new('vm')
         @other_vm = VirtualMachine.new('other_vm')
-        @vm.stub(:uuid).and_return('{just-an-uuid}')
       end
 
       it 'should be true when UUIDs are equal' do
-        @other_vm.stub(:uuid).and_return('{just-an-uuid}')
+        @other_vm.stub(:uuid).and_return(@vm.uuid)
         @vm.should == @other_vm
         @other_vm.should == @vm
       end
