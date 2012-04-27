@@ -75,13 +75,13 @@ module PrlBackup
       it 'should create an incremental backup by default' do
         @vm.stub(:config).and_return({})
         @vm.should_receive(:maybe_run).with('prlctl', 'backup', @uuid)
-        @vm.backup
+        @vm.instance_eval { backup }
       end
 
       it 'should create a full backup when configured' do
         @vm.stub(:config).and_return({:full => true})
         @vm.should_receive(:maybe_run).with('prlctl', 'backup', @uuid, '--full')
-        @vm.backup
+        @vm.instance_eval { backup }
       end
     end
 
@@ -131,7 +131,7 @@ module PrlBackup
     describe '#delete_backup' do
       it 'should delete the virtual machines backup' do
         @vm.should_receive(:maybe_run).with('prlctl', 'backup-delete', '--tag', '{some-backup-uuid}')
-        @vm.delete_backup('{some-backup-uuid}')
+        @vm.instance_eval { delete_backup('{some-backup-uuid}') }
       end
     end
 
@@ -151,14 +151,14 @@ ID Backup_ID                              Node                 Date             
 
       it 'should query the backup list by CLI' do
         @vm.should_receive(:run).with('prlctl', 'backup-list', @uuid)
-        @vm.full_backups
+        @vm.instance_eval { full_backups }
       end
 
       it 'should return a list of the virtual machines full backup UUIDs' do
-        @vm.full_backups.should eql(['{ae6565dd-7f8f-42cb-a088-8b1d98f5160b}',
-                                     '{5f9dd263-ec56-443e-9917-dab9b40d3027}',
-                                     '{2aeb4ada-6623-4087-9fc5-f09aeaafd81e}',
-                                     '{68f7e154-6755-46f6-ad1f-a79c5f488f35}'])
+        @vm.instance_eval { full_backups }.should eql(['{ae6565dd-7f8f-42cb-a088-8b1d98f5160b}',
+          '{5f9dd263-ec56-443e-9917-dab9b40d3027}',
+          '{2aeb4ada-6623-4087-9fc5-f09aeaafd81e}',
+          '{68f7e154-6755-46f6-ad1f-a79c5f488f35}'])
       end
     end
 
