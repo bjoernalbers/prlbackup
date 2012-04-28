@@ -20,18 +20,12 @@ module PrlBackup
         Command.run('prlctl', 'list', '--info')
       end
 
-      it 'should return an instance of that command' do
-        Open4.stub(:popen4).and_return(@popen4_return)
-        Process::stub(:waitpid2).and_return(@waitpid2_return)
-
-        Command.run('prlctl', 'list', '--info').class.should eql(Command)
-      end
     end
 
     describe '#run' do
-      it 'should capture stdout' do
+      it 'should return the stdout' do
         cmd = Command.new "ruby -e 'puts %q{hello, world.}'"
-        cmd.run.stdout.should eql("hello, world.\n")
+        cmd.run.should eql("hello, world.\n")
       end
     end
   end

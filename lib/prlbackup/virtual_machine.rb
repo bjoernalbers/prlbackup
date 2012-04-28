@@ -15,7 +15,7 @@ module PrlBackup
       # @return [Array<VirtualMachine>]
       def all
         cmd = %w{prlctl list --all --output uuid}
-        Command.run(*cmd).stdout.split("\n").grep(/(\{[a-f0-9-]+\})/) { new($1) }
+        Command.run(*cmd).split("\n").grep(/(\{[a-f0-9-]+\})/) { new($1) }
       end
     end
 
@@ -78,7 +78,7 @@ module PrlBackup
 
     # Get infos about the VM
     def info
-      @info ||= run('prlctl', 'list', '--info', @name_or_uuid).stdout
+      @info ||= run('prlctl', 'list', '--info', @name_or_uuid)
     end
 
     # Run the command unless option --dry-run is given.
@@ -93,12 +93,12 @@ module PrlBackup
 
     def stopped?
       cmd = ['prlctl', 'list', "--info", @name_or_uuid]
-      run(*cmd).stdout[/^State:\s+stopped$/]
+      run(*cmd)[/^State:\s+stopped$/]
     end
 
     # List of full backups for the virtual machine.
     def full_backups
-      run('prlctl', 'backup-list', uuid).stdout.split("\n").map { |l| $1 if l[/^\{[a-f0-9-]+\}\s+(\{[a-f0-9-]+\})[^(\.\d+)]/] }.compact
+      run('prlctl', 'backup-list', uuid).split("\n").map { |l| $1 if l[/^\{[a-f0-9-]+\}\s+(\{[a-f0-9-]+\})[^(\.\d+)]/] }.compact
     end
 
     # Delete the backup given by backup UUID.

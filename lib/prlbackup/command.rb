@@ -17,7 +17,6 @@ module PrlBackup
       pid, stdin, stdout, stderr = Open4::popen4(*@cmd)
       ignored, status = Process::waitpid2(pid)
       @stdout = stdout.read
-      self
     end
   end
 end

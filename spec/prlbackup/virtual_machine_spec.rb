@@ -31,25 +31,25 @@ module PrlBackup
 
       it 'should return a list of all virtual machines' do
         vm = mock('virtual_machine')
-        Command.stub(:run).and_return(stub(:stdout => @stdout))
+        Command.stub(:run).and_return(@stdout)
         VirtualMachine.stub(:new).and_return(vm)
         VirtualMachine.all.should eql([vm, vm, vm])
       end
 
       it 'should return an empty list if no virtual machines exist' do
-        Command.stub(:run).and_return(stub(:stdout => ''))
+        Command.stub(:run).and_return('')
         VirtualMachine.all.should eql([])
       end
 
       it 'should instantiate all virtual machines by their uuid' do
-        Command.stub(:run).and_return(stub(:stdout => @stdout))
+        Command.stub(:run).and_return(@stdout)
         @uuids.each { |uuid| VirtualMachine.should_receive(:new).with(uuid) }
         VirtualMachine.all
       end
 
       it 'should query a list of all virtual machines via command' do
         cmd = %w{prlctl list --all --output uuid}
-        Command.should_receive(:run).with(*cmd).and_return(stub(:stdout => @stdout))
+        Command.should_receive(:run).with(*cmd).and_return(@stdout)
         VirtualMachine.stub(:new)
         VirtualMachine.all
       end
@@ -138,16 +138,15 @@ module PrlBackup
 
     describe '#full_backups' do
       before do
-        output = double('output')
-        output.stub(:stdout).and_return('prlctl backup-list {bf364fd4-8f6b-4032-818d-4958f9c0945b}
+        stdout = 'prlctl backup-list {bf364fd4-8f6b-4032-818d-4958f9c0945b}
 ID Backup_ID                              Node                 Date                 Type       Size
 {deadbeef} {ae6565dd-7f8f-42cb-a088-8b1d98f5160b} psfm.example.com 02/27/2012 13:11:32     f 10537597943
 {deadbeef} {ae6565dd-7f8f-42cb-a088-8b1d98f5160b}.2 psfm.example.com 02/27/2012 15:26:02     i 2951747588
 {deadbeef} {5f9dd263-ec56-443e-9917-dab9b40d3027} psfm.example.com 03/13/2012 18:06:00     f 11748325372
 {deadbeef} {2aeb4ada-6623-4087-9fc5-f09aeaafd81e} psfm.example.com 03/23/2012 21:25:50     f 47315014888
 {deadbeef} {68f7e154-6755-46f6-ad1f-a79c5f488f35} psfm.example.com 03/28/2012 15:09:05     f 23462808438
-{deadbeef} {68f7e154-6755-46f6-ad1f-a79c5f488f35}.2 psfm.example.com 04/05/2012 17:21:12     i 12841952117')
-        @vm.stub(:run).and_return(output)
+{deadbeef} {68f7e154-6755-46f6-ad1f-a79c5f488f35}.2 psfm.example.com 04/05/2012 17:21:12     i 12841952117'
+        @vm.stub(:run).and_return(stdout)
       end
 
       it 'should query the backup list by CLI' do
@@ -165,14 +164,14 @@ ID Backup_ID                              Node                 Date             
 
     describe '#name' do
       it "should return the virtual machine's name" do
-        Command.stub(:run).and_return(stub(:stdout => "Name: foo"))
+        Command.stub(:run).and_return('Name: foo')
         VirtualMachine.new(nil).name.should eql('foo')
       end
     end
 
     describe '#uuid' do
       it "should return the virtual machine's UUID" do
-        Command.stub(:run).and_return(stub(:stdout => 'ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}'))
+        Command.stub(:run).and_return('ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}')
         VirtualMachine.new(nil).uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
       end
     end
