@@ -25,20 +25,23 @@ Given /^the following virtual machines?:$/ do |vm_table|
         """
       And I double `prlctl stop #{uuid}` with stdout:
         """
-        ...successfully stopped.
+        Stopping the VM...
+        The VM has been successfully stopped.
         """
       And I double `prlctl backup #{uuid}` with stdout:
-        """
-        ...successfully backed up with backup id {a3935342-e8b6-4e67-b9f6-1b2adf844837}.1
-        """
-      And I double `prlctl backup "#{name}"` with stdout:
         """
         Backing up the VM #{name}
         The virtual machine has been successfully backed up with backup id {d51e6df1-83e9-46e2-aef1-3807d721c1be}.
         """
+      And I double `prlctl backup "#{name}"` with stdout:
+        """
+        Backing up the VM #{name}
+        The virtual machine has been successfully backed up with backup id 
+        """
       And I double `prlctl start #{uuid}` with stdout:
         """
-        ...successfully started.
+        Starting the VM...
+        The VM has been successfully started.
         """
     }
   end

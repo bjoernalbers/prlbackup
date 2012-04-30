@@ -21,8 +21,17 @@ Feature: Development Steps
 
       """
 
-  Scenario: prlctl backup Ubuntu
-    When I successfully run `prlctl backup Ubuntu`
+  Scenario: prlctl stop ...
+    When I successfully run `prlctl stop {55aae003-298d-4199-82ed-23658a218605}`
+    Then the stdout should contain exactly:
+      """
+      Stopping the VM...
+      The VM has been successfully stopped.
+
+      """
+
+  Scenario: prlctl backup ...
+    When I successfully run `prlctl backup {55aae003-298d-4199-82ed-23658a218605}`
     Then the stdout should contain exactly:
       """
       Backing up the VM Ubuntu
@@ -30,7 +39,16 @@ Feature: Development Steps
 
       """
 
-  Scenario: `prlctl list --all`
+  Scenario: prlctl start ...
+    When I successfully run `prlctl start {55aae003-298d-4199-82ed-23658a218605}`
+    Then the stdout should contain exactly:
+      """
+      Starting the VM...
+      The VM has been successfully started.
+
+      """
+
+  Scenario: prlctl list --all ...
     When I run `prlctl list --all --output uuid`
     Then the stdout should contain exactly:
       """

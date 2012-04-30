@@ -16,6 +16,13 @@ module PrlBackup
       :boolean      => true,
       :default      => false
 
+    option :verbose,
+      :long         => '--verbose',
+      :short        => '-v',
+      :description  => 'Be verbose.',
+      :boolean      => 'true',
+      :default      => false
+
     option :exclude,
       :long         => '--exclude',
       :short        => '-e',
