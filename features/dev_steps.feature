@@ -1,29 +1,60 @@
 Feature: Development Steps
 
-	In order to keep my cucumber scenarios nice and tight
-	As a developer of Parallels-Backup
-	I want convenient development steps to fake virtual machines
+  In order to keep my cucumber scenarios nice and tight
+  As a developer of prlbackup
+  I want convenient development steps to fake virtual machines
 
-	Scenario: `prlctl list --all`
-		Given the following virtual machines:
-		  | uuid                                   | status  | name          |
-		  | {97351580-afd7-4aff-9960-814196b28e37} | stopped | Mac OS X Lion |
-		  | {423dba54-45e3-46f1-9aa2-87d61ce6b757} | running | Windows XP    |
-		  | {55aae003-298d-4199-82ed-23658a218605} | stopped | Ubuntu        |
-		When I run `prlctl list --all --output uuid`
-		Then the stdout should contain:
-			"""
-			UUID
-			"""
-		And the stdout should contain:
-			"""
-			{97351580-afd7-4aff-9960-814196b28e37}
-			"""
-		And the stdout should contain:
-			"""
-			{423dba54-45e3-46f1-9aa2-87d61ce6b757}
-			"""
-		And the stdout should contain:
-			"""
-			{55aae003-298d-4199-82ed-23658a218605}
-			"""
+  Background:
+    Given the following virtual machines:
+      | uuid                                   | status  | name          |
+      | {97351580-afd7-4aff-9960-814196b28e37} | stopped | Mac OS X Lion |
+      | {423dba54-45e3-46f1-9aa2-87d61ce6b757} | running | Windows XP    |
+      | {55aae003-298d-4199-82ed-23658a218605} | stopped | Ubuntu        |
+
+  Scenario: prlctl list --info Ubuntu
+    When I successfully run `prlctl list --info Ubuntu`
+    Then the stdout should contain exactly:
+      """
+      ID: {55aae003-298d-4199-82ed-23658a218605}
+      Name: Ubuntu
+      State: stopped
+
+      """
+
+  Scenario: prlctl stop ...
+    When I successfully run `prlctl stop {55aae003-298d-4199-82ed-23658a218605}`
+    Then the stdout should contain exactly:
+      """
+      Stopping the VM...
+      The VM has been successfully stopped.
+
+      """
+
+  Scenario: prlctl backup ...
+    When I successfully run `prlctl backup {55aae003-298d-4199-82ed-23658a218605}`
+    Then the stdout should contain exactly:
+      """
+      Backing up the VM Ubuntu
+      The virtual machine has been successfully backed up with backup id {d51e6df1-83e9-46e2-aef1-3807d721c1be}.
+
+      """
+
+  Scenario: prlctl start ...
+    When I successfully run `prlctl start {55aae003-298d-4199-82ed-23658a218605}`
+    Then the stdout should contain exactly:
+      """
+      Starting the VM...
+      The VM has been successfully started.
+
+      """
+
+  Scenario: prlctl list --all ...
+    When I run `prlctl list --all --output uuid`
+    Then the stdout should contain exactly:
+      """
+      UUID
+      {97351580-afd7-4aff-9960-814196b28e37}
+      {423dba54-45e3-46f1-9aa2-87d61ce6b757}
+      {55aae003-298d-4199-82ed-23658a218605}
+
+      """

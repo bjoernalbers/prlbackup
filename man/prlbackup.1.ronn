@@ -6,7 +6,7 @@ prlbackup(1) -- awesome backup tool for virtual machines on Parallels Server
 `prlbackup` `-h`|`--help`<br>
 `prlbackup` [<OPTIONS>...] <vm_id|vm_name>...<br>
 `prlbackup` [<OPTIONS>...] `-a`|`--all`<br>
-`prlbackup` [<OPTIONS>...] `-e`|`--exclude` <vm_id|vm_name>...
+`prlbackup` [<OPTIONS>...] `-a`|`--all` `-e`|`--exclude` <vm_id|vm_name>...
 
 ## DESCRIPTION
 
@@ -25,7 +25,8 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
     Backup all virtual machines which are registered in Parallels Server.
 
   * `-e`, `--exclude`:
-    Backup all but the given virtual machines by argument.
+    Backup all but the given virtual machines (only applicable in
+    combination with option `--all`!).
 
   * `-f`, `--full`:
     Create full backups (by default incremental backups are created).
@@ -38,7 +39,7 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
   * `-n`, `--dry-run`:
     Don't to anything with the VMs, just pretend to.
 
-  * `-k` <number_of_full_backups>, `--keep-only`=<number_of_full_backups>:
+  * `-k` <number_of_full_backups>, `--keep-only` <number_of_full_backups>:
     Delete the oldest full backup(s) until only <number_of_full_backups> exist.
     This cleanup action will be executed for each VM right after creating the
     corresponding backup but only if the backup was successfully created.
@@ -65,7 +66,7 @@ Create full backups of all VMs
 
 Backup all but not the given VMs:
 
-    $ prlbackup --exclude Delta Echo
+    $ prlbackup --all --exclude Delta Echo
 
 Show which commands would have been run when backing up all VMs:
 
@@ -73,7 +74,7 @@ Show which commands would have been run when backing up all VMs:
 
 Create the weekly full backup for all VMs and delete backups older than four weeks:
 
-    $ prlbackup --all --keep-only=5
+    $ prlbackup --all --keep-only 5
 
 ## SEE ALSO
 
