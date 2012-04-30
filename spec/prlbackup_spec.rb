@@ -5,10 +5,10 @@ module PrlBackup
     include PrlBackup
   end
 
-  describe '#run' do
+  describe '#command!' do
     before do
       @foo = Foo.new
-      @foo.stub(:run!).and_return('')
+      @foo.stub(:command).and_return('')
       @foo.stub_chain(:logger, :info)
     end
 
@@ -18,19 +18,19 @@ module PrlBackup
       end
 
       it 'should run the command' do
-        @foo.should_receive(:run!).with('hello', 'world')
-        @foo.run('hello', 'world')
+        @foo.should_receive(:command).with('hello', 'world')
+        @foo.command!('hello', 'world')
       end
 
       it 'should return stdout from command' do
-        @foo.stub(:run!).and_return("hello\nworld")
-        @foo.run.should eql("hello\nworld")
+        @foo.stub(:command).and_return("hello\nworld")
+        @foo.command!.should eql("hello\nworld")
       end
 
       it 'should log the last stdout line' do
-        @foo.stub(:run!).and_return("first line\nlast line")
+        @foo.stub(:command).and_return("first line\nlast line")
         @foo.logger.should_receive(:info).with('last line')
-        @foo.run
+        @foo.command!
       end
     end
 
@@ -40,12 +40,12 @@ module PrlBackup
       end
 
       it 'should not run the command' do
-        @foo.should_not_receive(:run!)
-        @foo.run
+        @foo.should_not_receive(:command)
+        @foo.command!
       end
 
       it 'should return a blank string' do
-        @foo.run.should eql('')
+        @foo.command!.should eql('')
       end
     end
 
@@ -56,12 +56,12 @@ module PrlBackup
 
       it 'should log which command would be running' do
         @foo.logger.should_receive(:info).with('Running `some command`...')
-        @foo.run('some', 'command')
+        @foo.command!('some', 'command')
       end
     end
   end
 
-  describe '#run!' do
+  describe '#command' do
     before do
       @foo = Foo.new
       @pid = double('pid')
@@ -80,12 +80,12 @@ module PrlBackup
     it 'should run a command and wait for it' do
       Open4.should_receive(:popen4).with('hello', 'world').and_return(@popen4_return)
       Process::should_receive(:waitpid2).with(@pid).and_return(@waitpid2_return)
-      @foo.run!('hello', 'world')
+      @foo.command('hello', 'world')
     end
 
     it 'should read and return the stdout' do
       @stdout.stub(:read).and_return('hello')
-      @foo.run!("ruby -e 'puts %q{hello}'").should eql('hello')
+      @foo.command("ruby -e 'puts %q{hello}'").should eql('hello')
     end
 
     context 'with a failing command' do
@@ -100,12 +100,12 @@ module PrlBackup
 
       it 'should log failing commands' do
         @foo.logger.should_receive(:error).with("Command `some command` failed with exit status 42:\nstdoutstderr")
-        output = @foo.run!('some', 'command')
+        output = @foo.command('some', 'command')
       end
 
       it 'should exit immediately' do
         @foo.should_receive(:exit).with(1)
-        @foo.run!('some', 'command')
+        @foo.command('some', 'command')
       end
     end
   end
