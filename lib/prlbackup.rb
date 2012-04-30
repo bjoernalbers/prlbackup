@@ -29,13 +29,17 @@ module PrlBackup
   # @Note This will even run when option --dry-run is selected!
   # @return [String] stdout of the comand.
   def command(*args)
-    pid, stdin, stdout, stderr = Open4::popen4(*args)
-    ignored, status = Process::waitpid2(pid)
+    #pid, stdin, stdout, stderr = Open4::popen4(*args)
+    #ignored, status = Process::waitpid2(pid)
+    output = `#{args.shelljoin} 2>&1`
+    status = $?
     unless status.success?
-      logger.error("Command `#{args.shelljoin}` failed with exit status #{status.exitstatus}:\n#{stdout.read}#{stderr.read}")
+      #logger.error("Command `#{args.shelljoin}` failed with exit status #{status.exitstatus}:\n#{stdout.read}#{stderr.read}")
+      logger.error("Command `#{args.shelljoin}` failed with exit status #{status.exitstatus}:\n#{output}")
       exit(1)
     end
-    stdout.read
+    #stdout.read
+    output
   end
 
   def logger
