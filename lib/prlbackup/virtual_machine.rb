@@ -23,6 +23,7 @@ module PrlBackup
     # Initialize with a valid name or UUID from the virtual machine.
     def initialize(name_or_uuid)
       @name_or_uuid = name_or_uuid
+      update_info
     end
 
     def config
@@ -45,13 +46,13 @@ module PrlBackup
     # Return the virtual machine's name.
     # @return [String]
     def name
-      info[/^Name:\s+(.+)$/,1]
+      info[/^Name:\s+(.+)$/,1] if info
     end
 
     # Return the virtual machine's UUID.
     # @return [String]
     def uuid
-      info[/^ID:\s+(\{[a-f0-9-]+\})$/,1]
+      info[/^ID:\s+(\{[a-f0-9-]+\})$/,1] if info
     end
 
     # Is equal if the virtual machines UUIDs are equal.
@@ -61,10 +62,14 @@ module PrlBackup
 
     # Return the name of the virtual machine.
     def to_s
-      name
+      name || 'Unknown VM'
     end
 
   private
+
+    # Info string about the virtual machine.
+    # @Note These infos will only be updated when calling `update_info`.
+    attr_reader :info
 
     # Start the virtual machine.
     def start
@@ -83,21 +88,14 @@ module PrlBackup
       command!(*cmd)
     end
 
-    # Return infos for the virtual machine.
-    # @Note These infos will only be updated when calling `info!`.
+    # Update and return info string for the virtual machine.
     # @return [String] infos
-    def info
-      @info ||= info!
-    end
-
-    # Update and return infos for the virtual machine.
-    # @return [String] infos
-    def info!
+    def update_info
       @info = command('prlctl', 'list', '--info', @name_or_uuid)
     end
 
     def stopped?
-      info![/^State:\s+stopped$/]
+      update_info[/^State:\s+stopped$/]
     end
 
     # List of full backups for the virtual machine.

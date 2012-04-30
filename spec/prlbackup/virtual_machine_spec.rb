@@ -3,6 +3,7 @@ require 'spec_helper'
 module PrlBackup
   describe VirtualMachine do
     before do
+      VirtualMachine.any_instance.stub(:command).and_return('')
       @uuid = '{deadbeef}'
       @vm = VirtualMachine.new('foo')
       @vm.stub(:uuid).and_return(@uuid)
@@ -168,51 +169,52 @@ ID Backup_ID                              Node                 Date             
         @vm.stub(:info).and_return('Name: foo')
         @vm.name.should eql('foo')
       end
+
+      it 'should return nil if the name cannot be parsed' do
+        @vm.stub(:info).and_return(nil)
+        @vm.name.should be_nil
+      end
     end
 
     describe '#uuid' do
+      before do
+        @vm = VirtualMachine.new('foo')
+      end
+
       it "should return the virtual machine's UUID" do
-        vm = VirtualMachine.new('foo')
-        vm.stub(:info).and_return('ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}')
-        vm.uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
+        @vm.stub(:info).and_return('ID: {423dba54-45e3-46f1-9aa2-87d61ce6b757}')
+        @vm.uuid.should eql('{423dba54-45e3-46f1-9aa2-87d61ce6b757}')
+      end
+
+      it 'should return nil if the uuid cannot be parsed' do
+        @vm.stub(:info).and_return(nil)
+        @vm.uuid.should be_nil
       end
     end
 
-    describe '#info' do
-      it 'should return the infos' do
-        @vm.stub(:info!).and_return('Foo: Bar')
-        @vm.instance_eval { info }.should eql('Foo: Bar')
-      end
-
-      it 'should query info! only once' do
-        @vm.should_receive(:info!).once.and_return('Foo: Bar')
-        2.times { @vm.instance_eval { info } }
-      end
-    end
-
-    describe '#info!' do
+    describe '#update_info' do
       it 'should query infos about the virtual machine' do
         @vm.should_receive(:command).with('prlctl', 'list', '--info', 'foo')
-        @vm.instance_eval { info! }
+        @vm.instance_eval { update_info }
       end
 
       it 'should update and return the infos' do
         @vm.stub(:command).and_return('Foo: Bar', 'Foo: Baz')
-        @vm.instance_eval { info! }.should eql('Foo: Bar')
+        @vm.instance_eval { update_info }.should eql('Foo: Bar')
         @vm.instance_eval { info }.should eql('Foo: Bar')
-        @vm.instance_eval { info! }.should eql('Foo: Baz')
+        @vm.instance_eval { update_info }.should eql('Foo: Baz')
         @vm.instance_eval { info }.should eql('Foo: Baz')
       end
     end
 
     describe '#stopped?' do
       it 'should return true when virtual machine is stopped' do
-        @vm.stub!(:info!).and_return('State: stopped')
+        @vm.stub!(:update_info).and_return('State: stopped')
         @vm.should be_stopped
       end
 
       it 'should return false when virtual machine is not stopped' do
-        @vm.stub!(:info!).and_return('State: running')
+        @vm.stub!(:update_info).and_return('State: running')
         @vm.should_not be_stopped
       end
     end
@@ -239,6 +241,11 @@ ID Backup_ID                              Node                 Date             
       it 'should return the name' do
         @vm.should_receive('name').and_return('name_of_the_vm')
         @vm.to_s.should eql('name_of_the_vm')
+      end
+
+      it 'should return "Unknown VM" if name is nil' do
+        @vm.should_receive(:name).and_return(nil)
+        @vm.to_s.should eql('Unknown VM')
       end
     end
   end
