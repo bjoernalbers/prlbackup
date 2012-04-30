@@ -15,7 +15,7 @@ guard 'cucumber' do
   watch(%r{^features/steps/.+$})       { 'features' }
 end
 
-guard 'ronn', :cli => '--manual="PRLBACKUP MANUAL" --warnings --style=toc' do
+guard 'ronn', :cli => '--manual="PRLBACKUP MANUAL" --style=toc' do
   watch(%r{^man/.+\.ronn$})
   watch(%r{^man/.+\.(md|markdown)$})
 end
