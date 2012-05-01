@@ -1,5 +1,7 @@
-prlbackup(1) -- an awesome backup tool for Parallels Server Virtual Machines
-============================================================================
+prlbackup
+=========
+
+an awesome backup tool for Parallels Server Virtual Machines
 
 Installation
 ------------
@@ -9,7 +11,7 @@ Installation
 Usage
 -----
 
-Take a look at `gem man prlbackup`.
+Take a look at [`gem man prlbackup`](http://bjoernalbers.de/prlbackup/).
 
 Note on Patches/Pull Requests
 -----------------------------

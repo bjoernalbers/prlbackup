@@ -18,7 +18,6 @@ deleting old backups on demand.}
   s.require_paths = ['lib']
 
   s.add_dependency 'mixlib-cli', '>= 1.2.0'
-  s.add_dependency 'gem-man', '>= 0.3.0'
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'
