@@ -7,17 +7,16 @@ Gem::Specification.new do |s|
   s.version     = PrlBackup::VERSION
   s.authors     = ['Björn Albers']
   s.email       = ['bjoernalbers@googlemail.com']
-  s.homepage    = "https://github.com/bjoernalbers/#{s.name}"
+  s.homepage    = "http://bjoernalbers.de/#{s.name}/"
   s.summary     = 'an awesome backup tool for Parallels Server Virtual Machines'
-  s.description = %q{prlbackup simplifies the backup of one or multiple Virtual Machines
-(VM) running on Parallels Server by stoping them during backup and
-deleting old backups on demand.}
+  s.description = %q{prlbackup simplifies the backup of one or multiple Virtual Machines (VM) running on Parallels Server by stoping them during backup and deleting old backups on demand.  A working installation of Parallels Server is required.}
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ['lib']
 
   s.add_dependency 'mixlib-cli', '>= 1.2.0'
+  s.add_dependency 'gem-man', '~> 0.3.0'
 
   s.add_development_dependency 'cucumber', '>= 1.1.4'
   s.add_development_dependency 'aruba', '>= 0.4.11'
