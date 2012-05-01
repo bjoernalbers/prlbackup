@@ -1,10 +1,10 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "PRLBACKUP" "1" "April 2012" "" "PRLBACKUP MANUAL"
+.TH "PRLBACKUP" "1" "May 2012" "" "PRLBACKUP MANUAL"
 .
 .SH "NAME"
-\fBprlbackup\fR \- awesome backup tool for virtual machines on Parallels Server
+\fBprlbackup\fR \- an awesome backup tool for Parallels Server Virtual Machines
 .
 .SH "SYNOPSIS"
 \fBprlbackup\fR \fB\-h\fR|\fB\-\-help\fR
@@ -19,16 +19,16 @@
 \fBprlbackup\fR [\fIOPTIONS\fR\.\.\.] \fB\-a\fR|\fB\-\-all\fR \fB\-e\fR|\fB\-\-exclude\fR \fIvm_id|vm_name\fR\.\.\.
 .
 .SH "DESCRIPTION"
-\fBprlbackup\fR simplifies the backup of one or multiple Virtual Machines running on Parallels Server by stoping VMs during backup and deleting old backups on demand\. A working installation of Parallels Server is required\.
+\fBprlbackup\fR simplifies the backup of one or multiple Virtual Machines (VM) running on Parallels Server by stoping them during backup and deleting old backups on demand\. A working installation of Parallels Server is required\.
 .
 .P
-prlbackup was tested under Parallels Server for Mac 4\.0 (PSfM)\.
+\fBprlbackup\fR was tested under Parallels Server for Mac 4\.0 (PSfM)\.
 .
 .SH "OPTIONS"
 .
 .TP
 \fB\-h\fR, \fB\-\-help\fR
-Display a short help (same as when called without any options at all)\.
+Display a short help\.
 .
 .TP
 \fB\-a\fR, \fB\-\-all\fR
@@ -44,11 +44,11 @@ Create full backups (by default incremental backups are created)\. Note that the
 .
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
-Show which commands are executed\.
+Show commands with an impact on the VMs prior to their execution\.
 .
 .TP
 \fB\-n\fR, \fB\-\-dry\-run\fR
-Don\'t to anything with the VMs, just pretend to\.
+Don\'t do anything with the VMs, just pretend to\.
 .
 .TP
 \fB\-k\fR \fInumber_of_full_backups\fR, \fB\-\-keep\-only\fR \fInumber_of_full_backups\fR
@@ -61,7 +61,7 @@ Display short help:
 .
 .nf
 
-$ prlbackup
+$ prlbackup \-\-help
 .
 .fi
 .

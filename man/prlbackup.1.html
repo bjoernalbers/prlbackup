@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv='content-type' value='text/html;charset=utf8'>
   <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
-  <title>prlbackup(1) - awesome backup tool for virtual machines on Parallels Server</title>
+  <title>prlbackup(1) - an awesome backup tool for Parallels Server Virtual Machines</title>
   <style type='text/css' media='all'>
   /* style: man */
   body#manpage {margin:0}
@@ -76,7 +76,7 @@
 
   <h2 id="NAME">NAME</h2>
 <p class="man-name">
-  <code>prlbackup</code> - <span class="man-whatis">awesome backup tool for virtual machines on Parallels Server</span>
+  <code>prlbackup</code> - <span class="man-whatis">an awesome backup tool for Parallels Server Virtual Machines</span>
 </p>
 
 <h2 id="SYNOPSIS">SYNOPSIS</h2>
@@ -88,24 +88,25 @@
 
 <h2 id="DESCRIPTION">DESCRIPTION</h2>
 
-<p><code>prlbackup</code> simplifies the backup of one or multiple Virtual Machines running
-on Parallels Server by stoping VMs during backup and deleting old backups on demand.
-A working installation of Parallels Server is required.</p>
+<p><code>prlbackup</code> simplifies the backup of one or multiple Virtual Machines
+(VM) running on Parallels Server by stoping them during backup and
+deleting old backups on demand.  A working installation of Parallels
+Server is required.</p>
 
-<p>prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).</p>
+<p><code>prlbackup</code> was tested under Parallels Server for Mac 4.0 (PSfM).</p>
 
 <h2 id="OPTIONS">OPTIONS</h2>
 
 <dl>
-<dt><code>-h</code>, <code>--help</code></dt><dd><p>Display a short help (same as when called without any options at all).</p></dd>
+<dt><code>-h</code>, <code>--help</code></dt><dd><p>Display a short help.</p></dd>
 <dt><code>-a</code>, <code>--all</code></dt><dd><p>Backup all virtual machines which are registered in Parallels Server.</p></dd>
 <dt><code>-e</code>, <code>--exclude</code></dt><dd><p>Backup all but the given virtual machines (only applicable in
 combination with option <code>--all</code>!).</p></dd>
 <dt><code>-f</code>, <code>--full</code></dt><dd><p>Create full backups (by default incremental backups are created).
 Note that the first backup for a VM is always a full backup despide
 of this option.</p></dd>
-<dt><code>-v</code>, <code>--verbose</code></dt><dd><p>Show which commands are executed.</p></dd>
-<dt><code>-n</code>, <code>--dry-run</code></dt><dd><p>Don't to anything with the VMs, just pretend to.</p></dd>
+<dt><code>-v</code>, <code>--verbose</code></dt><dd><p>Show commands with an impact on the VMs prior to their execution.</p></dd>
+<dt><code>-n</code>, <code>--dry-run</code></dt><dd><p>Don't do anything with the VMs, just pretend to.</p></dd>
 <dt><code>-k</code> <var>number_of_full_backups</var>, <code>--keep-only</code> <var>number_of_full_backups</var></dt><dd><p>Delete the oldest full backup(s) until only <var>number_of_full_backups</var> exist.
 This cleanup action will be executed for each VM right after creating the
 corresponding backup but only if the backup was successfully created.
@@ -118,7 +119,7 @@ full backup is deleted.</p></dd>
 
 <p>Display short help:</p>
 
-<pre><code>$ prlbackup
+<pre><code>$ prlbackup --help
 </code></pre>
 
 <p>Backup VMs by name:</p>
@@ -161,7 +162,7 @@ full backup is deleted.</p></dd>
 
 <h2 id="COPYRIGHT">COPYRIGHT</h2>
 
-<p>Copyright (c) 2012 Bjoern Albers (<a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#58;&#x62;&#106;&#111;&#101;&#114;&#x6e;&#x61;&#108;&#98;&#101;&#x72;&#115;&#x40;&#x67;&#x6f;&#x6f;&#103;&#x6c;&#x65;&#x6d;&#97;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;" data-bare-link="true">&#x62;&#106;&#111;&#x65;&#x72;&#x6e;&#x61;&#x6c;&#x62;&#x65;&#114;&#x73;&#x40;&#103;&#111;&#x6f;&#103;&#x6c;&#101;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a>)</p>
+<p>Copyright (c) 2012 Bjoern Albers (<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#98;&#x6a;&#111;&#101;&#114;&#110;&#x61;&#x6c;&#x62;&#x65;&#x72;&#115;&#x40;&#x67;&#111;&#111;&#x67;&#108;&#x65;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#111;&#109;" data-bare-link="true">&#98;&#106;&#x6f;&#101;&#114;&#110;&#97;&#108;&#98;&#101;&#114;&#115;&#64;&#x67;&#x6f;&#111;&#103;&#108;&#x65;&#109;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>)</p>
 
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -185,7 +186,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
   <ol class='man-decor man-foot man foot'>
     <li class='tl'></li>
-    <li class='tc'>April 2012</li>
+    <li class='tc'>May 2012</li>
     <li class='tr'>prlbackup(1)</li>
   </ol>
 

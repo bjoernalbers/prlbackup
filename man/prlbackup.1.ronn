@@ -1,4 +1,4 @@
-prlbackup(1) -- awesome backup tool for virtual machines on Parallels Server
+prlbackup(1) -- an awesome backup tool for Parallels Server Virtual Machines
 ============================================================================
 
 ## SYNOPSIS
@@ -10,16 +10,17 @@ prlbackup(1) -- awesome backup tool for virtual machines on Parallels Server
 
 ## DESCRIPTION
 
-`prlbackup` simplifies the backup of one or multiple Virtual Machines running
-on Parallels Server by stoping VMs during backup and deleting old backups on demand.
-A working installation of Parallels Server is required.
+`prlbackup` simplifies the backup of one or multiple Virtual Machines
+(VM) running on Parallels Server by stoping them during backup and
+deleting old backups on demand.  A working installation of Parallels
+Server is required.
 
-prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
+`prlbackup` was tested under Parallels Server for Mac 4.0 (PSfM).
 
 ## OPTIONS
 
   * `-h`, `--help`:
-    Display a short help (same as when called without any options at all).
+    Display a short help.
 
   * `-a`, `--all`:
     Backup all virtual machines which are registered in Parallels Server.
@@ -34,10 +35,10 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
     of this option.
 
   * `-v`, `--verbose`:
-    Show which commands are executed.
+    Show commands with an impact on the VMs prior to their execution.
 
   * `-n`, `--dry-run`:
-    Don't to anything with the VMs, just pretend to.
+    Don't do anything with the VMs, just pretend to.
 
   * `-k` <number_of_full_backups>, `--keep-only` <number_of_full_backups>:
     Delete the oldest full backup(s) until only <number_of_full_backups> exist.
@@ -50,7 +51,7 @@ prlbackup was tested under Parallels Server for Mac 4.0 (PSfM).
 
 Display short help:
 
-    $ prlbackup
+    $ prlbackup --help
 
 Backup VMs by name:
 

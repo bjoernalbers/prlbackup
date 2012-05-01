@@ -5,7 +5,7 @@ module PrlBackup
     option :full,
       :long         => '--full',
       :short        => '-f',
-      :description  => 'Create full backup.',
+      :description  => 'Create full backups.',
       :boolean      => true,
       :default      => false
 
@@ -26,21 +26,21 @@ module PrlBackup
     option :exclude,
       :long         => '--exclude',
       :short        => '-e',
-      :description  => 'Exclude given virtual machines from backup.',
+      :description  => 'Exclude given virtual machines from backup (in combination with --all).',
       :boolean      => true,
       :default      => false
 
     option :dry_run,
       :long         => '--dry-run',
       :short        => '-n',
-      :description  => 'Do not stop, backup or start any virtual machines.',
+      :description  => 'Dont run commands which have an impact on virtual machines.',
       :boolean      => true,
       :default      => false
 
     option :keep_only,
-      :long         => '--keep-only NUMBER_OF_FULL_BACKUPS',
-      :short        => '-k NUMBER_OF_FULL_BACKUPS',
-      :description  => 'Keep only N full backups (delete the oldest!)',
+      :long         => '--keep-only n',
+      :short        => '-k n',
+      :description  => 'Keep only n full backups (delete the oldest!)',
       :proc         => Proc.new { |k| k.to_i }
 
     class << self

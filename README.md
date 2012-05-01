@@ -1,7 +1,5 @@
-prlbackup
-=========
-
-An awesome command-line app to backup Virtual Machines from Parallels Server.
+prlbackup(1) -- an awesome backup tool for Parallels Server Virtual Machines
+============================================================================
 
 Installation
 ------------
@@ -11,7 +9,7 @@ Installation
 Usage
 -----
 
-Take a look at `gem man prlbackup` or see the online documenation.
+Take a look at `gem man prlbackup`.
 
 Note on Patches/Pull Requests
 -----------------------------
@@ -26,4 +24,4 @@ Note on Patches/Pull Requests
 Copyright
 ---------
 
-Copyright (c) 2012 Björn Albers. See LICENSE for details.
+Copyright (c) 2012 Björn Albers (MIT License)

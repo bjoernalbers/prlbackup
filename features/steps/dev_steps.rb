@@ -1,14 +1,12 @@
 Before do
-  @aruba_timeout_seconds = 30
+  @aruba_timeout_seconds = 10
 end
 
 Given /^the following virtual machines?:$/ do |vm_table|
   format = "%-40s%-13s%-16s%s"
-  #all_vm = [format % %w{UUID STATUS IP_ADDR NAME"}]
   all_vm = %w[UUID]
   vm_table.hashes.each do |vm|
     name, uuid, status  = vm["name"], vm["uuid"], vm["status"]
-    #all_vm << format % [vm["uuid"], vm["status"], "-", vm["name"]]
     all_vm << vm['uuid']
     steps %Q{
       Given I double `prlctl list --info "#{name}"` with stdout:
@@ -32,11 +30,6 @@ Given /^the following virtual machines?:$/ do |vm_table|
         """
         Backing up the VM #{name}
         The virtual machine has been successfully backed up with backup id {d51e6df1-83e9-46e2-aef1-3807d721c1be}.
-        """
-      And I double `prlctl backup "#{name}"` with stdout:
-        """
-        Backing up the VM #{name}
-        The virtual machine has been successfully backed up with backup id 
         """
       And I double `prlctl start #{uuid}` with stdout:
         """
