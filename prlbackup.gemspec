@@ -3,13 +3,13 @@ $:.push File.expand_path("../lib", __FILE__)
 require "prlbackup/version"
 
 Gem::Specification.new do |s|
-  s.name        = 'prlbackup'
-  s.version     = PrlBackup::VERSION
-  s.authors     = ['Björn Albers']
-  s.email       = ['bjoernalbers@googlemail.com']
-  s.homepage    = "http://bjoernalbers.de/#{s.name}/"
-  s.summary     = 'an awesome backup tool for Parallels Server Virtual Machines'
-  s.description = %q{prlbackup simplifies the backup of one or multiple Virtual Machines (VM) running on Parallels Server by stoping them during backup and deleting old backups on demand.  A working installation of Parallels Server is required.}
+  s.name          = 'prlbackup'
+  s.version       = PrlBackup::VERSION
+  s.authors       = ['Björn Albers']
+  s.email         = ['bjoernalbers@googlemail.com']
+  s.homepage      = "http://bjoernalbers.de/#{s.name}/"
+  s.summary       = "#{s.name}-#{s.version}"
+  s.description   = 'an awesome backup tool for Parallels Server Virtual Machines'
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
