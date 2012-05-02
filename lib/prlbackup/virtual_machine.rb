@@ -33,7 +33,6 @@ module PrlBackup
     # Safely backup the virtual machine.
     # @note A running virtual machine will be stopped during the backup!
     def safe_backup(full=false)
-      logger.info('Starting backup...')
       stopped? ? backup : (stop; backup; start)
     end
 

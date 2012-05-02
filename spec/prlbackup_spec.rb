@@ -47,17 +47,8 @@ module PrlBackup
       it 'should return a blank string' do
         @foo.command!.should eql('')
       end
-    end
 
-    context 'with options --dry-run and --verbose' do
-      before do
-        PrlBackup.stub(:config).and_return({:dry_run => true, :verbose => true})
-      end
-
-      it 'should log which command would be running' do
-        @foo.logger.should_receive(:info).with('Running `some command`...')
-        @foo.command!('some', 'command')
-      end
+      it 'should log the action which would be performed'
     end
   end
 
@@ -85,6 +76,23 @@ module PrlBackup
       @foo.logger
       STDOUT.sync.should be_true
       STDOUT.sync = original_sync_state 
+    end
+  end
+
+  describe '#command' do
+    context 'with option --verbose' do
+      before do
+        @foo = Foo.new
+        @foo.stub(:`).and_return('')
+        @logger = double('logger')
+        @foo.stub(:logger).and_return(@logger)
+        PrlBackup.stub(:config).and_return({:verbose => true})
+      end
+
+      it 'should log which command would be running' do
+        @foo.logger.should_receive(:info).with('Running `some command`...')
+        @foo.command('some', 'command')
+      end
     end
   end
 end
