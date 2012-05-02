@@ -6,12 +6,16 @@ an awesome backup tool for Parallels Server Virtual Machines
 Installation
 ------------
 
+Install it via [RubyGems](https://rubygems.org/gems/prlbackup):
+
 	gem install prlbackup
 
 Usage
 -----
 
-Take a look at [`gem man prlbackup`](http://bjoernalbers.de/prlbackup/).
+Take a look at [prlbackup(1)](http://bjoernalbers.de/prlbackup/):
+
+  gem man prlbackup
 
 Note on Patches/Pull Requests
 -----------------------------

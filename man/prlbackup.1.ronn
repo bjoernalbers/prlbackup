@@ -81,7 +81,7 @@ Create the weekly full backup for all VMs and delete backups older than four wee
 ## SEE ALSO
 
   * prlctl(8)
-  * [prlbackup's homepage](https://github.com/bjoernalbers/prlbackup)
+  * [prlbackup on Github](https://github.com/bjoernalbers/prlbackup)
 
 ## COPYRIGHT
 
