@@ -35,10 +35,10 @@ Server is required.
     of this option.
 
   * `-v`, `--verbose`:
-    Show commands with an impact on the VMs prior to their execution.
+    Display commands before executing them.
 
   * `-n`, `--dry-run`:
-    Don't do anything with the VMs, just pretend to.
+    Don't run commands with an impact on VMs (display them instead).
 
   * `-k` <number_of_full_backups>, `--keep-only` <number_of_full_backups>:
     Delete the oldest full backup(s) until only <number_of_full_backups> exist.
@@ -69,9 +69,10 @@ Backup all but not the given VMs:
 
     $ prlbackup --all --exclude Delta Echo
 
-Show which commands would have been run when backing up all VMs:
+Show what commands (with VM impact) whould have been run when backing up
+all VMs:
 
-    $ prlbackup --dry-run --verbose --all
+    $ prlbackup --dry-run --all
 
 Create the weekly full backup for all VMs and delete backups older than four weeks:
 
@@ -80,7 +81,7 @@ Create the weekly full backup for all VMs and delete backups older than four wee
 ## SEE ALSO
 
   * prlctl(8)
-  * [prlbackup's homepage](https://github.com/bjoernalbers/prlbackup)
+  * [prlbackup on Github](https://github.com/bjoernalbers/prlbackup)
 
 ## COPYRIGHT
 

@@ -19,7 +19,7 @@ module PrlBackup
     option :verbose,
       :long         => '--verbose',
       :short        => '-v',
-      :description  => 'Be verbose.',
+      :description  => 'Display commands before executing them.',
       :boolean      => 'true',
       :default      => false
 
@@ -33,7 +33,7 @@ module PrlBackup
     option :dry_run,
       :long         => '--dry-run',
       :short        => '-n',
-      :description  => 'Dont run commands which have an impact on virtual machines.',
+      :description  => 'Don\'t run commands with an impact on VMs (display them instead).',
       :boolean      => true,
       :default      => false
 

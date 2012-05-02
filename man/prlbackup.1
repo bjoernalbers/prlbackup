@@ -44,11 +44,11 @@ Create full backups (by default incremental backups are created)\. Note that the
 .
 .TP
 \fB\-v\fR, \fB\-\-verbose\fR
-Show commands with an impact on the VMs prior to their execution\.
+Display commands before executing them\.
 .
 .TP
 \fB\-n\fR, \fB\-\-dry\-run\fR
-Don\'t do anything with the VMs, just pretend to\.
+Don\'t run commands with an impact on VMs (display them instead)\.
 .
 .TP
 \fB\-k\fR \fInumber_of_full_backups\fR, \fB\-\-keep\-only\fR \fInumber_of_full_backups\fR
@@ -120,13 +120,13 @@ $ prlbackup \-\-all \-\-exclude Delta Echo
 .IP "" 0
 .
 .P
-Show which commands would have been run when backing up all VMs:
+Show what commands (with VM impact) whould have been run when backing up all VMs:
 .
 .IP "" 4
 .
 .nf
 
-$ prlbackup \-\-dry\-run \-\-verbose \-\-all
+$ prlbackup \-\-dry\-run \-\-all
 .
 .fi
 .
@@ -151,7 +151,7 @@ $ prlbackup \-\-all \-\-keep\-only 5
 prlctl(8)
 .
 .IP "\(bu" 4
-prlbackup\'s homepage \fIhttps://github\.com/bjoernalbers/prlbackup\fR
+prlbackup on Github \fIhttps://github\.com/bjoernalbers/prlbackup\fR
 .
 .IP "" 0
 .

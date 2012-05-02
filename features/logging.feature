@@ -13,8 +13,7 @@ Feature: Logging
 
   Scenario: Log the last stdout line from prlctl
     When I successfully run `prlbackup "Windows XP"`
-    And the stdout should contain "[Windows XP] Starting backup..."
-    And the stdout should contain "The VM has been successfully stopped"
+    Then the stdout should contain "The VM has been successfully stopped"
     And the stdout should contain "The virtual machine has been successfully backed up with backup id"
     And the stdout should contain "The VM has been successfully started"
 
@@ -32,8 +31,16 @@ Feature: Logging
     When I run `prlbackup Ubuntu`
     Then the output should match /ERROR.+BOOOOM/
 
-  Scenario: Be verbose
+  Scenario: Display commands with option --verbose
     When I run `prlbackup --verbose "Windows XP"`
-    Then the stdout should contain "Running `prlctl stop \{423dba54-45e3-46f1-9aa2-87d61ce6b757\}`" 
-    And the stdout should contain "Running `prlctl backup \{423dba54-45e3-46f1-9aa2-87d61ce6b757\}`" 
-    And the stdout should contain "Running `prlctl start \{423dba54-45e3-46f1-9aa2-87d61ce6b757\}`" 
+    Then the stdout should contain "prlctl list --info"
+    And the stdout should contain "prlctl stop" 
+    And the stdout should contain "prlctl backup" 
+    And the stdout should contain "prlctl start" 
+
+  Scenario: Display commands with VM impact with option --dry-run
+    When I run `prlbackup --dry-run "Windows XP"`
+    Then the stdout should contain "prlctl stop"
+    And the stdout should contain "prlctl backup"
+    And the stdout should contain "prlctl start"
+    But the stdout should not contain "prlctl list"
