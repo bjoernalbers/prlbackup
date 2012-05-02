@@ -5,10 +5,10 @@ module PrlBackup
     include PrlBackup
   end
 
-  describe '#command!' do
+  describe '#conditionally_run' do
     before do
       @foo = Foo.new
-      @foo.stub(:command).and_return('')
+      @foo.stub(:run).and_return('')
       @foo.stub_chain(:logger, :info)
     end
 
@@ -18,19 +18,19 @@ module PrlBackup
       end
 
       it 'should run the command' do
-        @foo.should_receive(:command).with('hello', 'world')
-        @foo.command!('hello', 'world')
+        @foo.should_receive(:run).with('hello', 'world')
+        @foo.conditionally_run('hello', 'world')
       end
 
       it 'should return stdout from command' do
-        @foo.stub(:command).and_return("hello\nworld")
-        @foo.command!.should eql("hello\nworld")
+        @foo.stub(:run).and_return("hello\nworld")
+        @foo.conditionally_run.should eql("hello\nworld")
       end
 
       it 'should log the last stdout line' do
-        @foo.stub(:command).and_return("first line\nlast line")
+        @foo.stub(:run).and_return("first line\nlast line")
         @foo.logger.should_receive(:info).with('last line')
-        @foo.command!
+        @foo.conditionally_run
       end
     end
 
@@ -40,17 +40,17 @@ module PrlBackup
       end
 
       it 'should not run the command' do
-        @foo.should_not_receive(:command)
-        @foo.command!
+        @foo.should_not_receive(:run)
+        @foo.conditionally_run
       end
 
       it 'should return a blank string' do
-        @foo.command!.should eql('')
+        @foo.conditionally_run.should eql('')
       end
 
       it 'should log the command which would be performed' do
         @foo.logger.should_receive(:info).with('Dry-running `some command`...')
-        @foo.command!('some', 'command')
+        @foo.conditionally_run('some', 'command')
       end
     end
   end
@@ -82,7 +82,7 @@ module PrlBackup
     end
   end
 
-  describe '#command' do
+  describe '#run' do
     context 'with option --verbose' do
       before do
         @foo = Foo.new
@@ -94,7 +94,7 @@ module PrlBackup
 
       it 'should log which command would be running' do
         @foo.logger.should_receive(:info).with('Running `some command`...')
-        @foo.command('some', 'command')
+        @foo.run('some', 'command')
       end
     end
   end

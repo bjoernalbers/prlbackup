@@ -45,16 +45,16 @@ module PrlBackup
 
     class << self
       # Run the backups with given options and arguments.
-      def run
-        self.new.run(ARGV)
+      def start
+        self.new.start(ARGV)
       end
     end
 
     # Parse options and create safe backups for the selected virtual machines.
-    def run(argv)
+    def start(argv)
       parse_options!(argv)
       selected_virtual_machines.each do |vm|
-        vm.safe_backup
+        vm.safely_backup
         vm.cleanup if config[:keep_only]
       end
     end

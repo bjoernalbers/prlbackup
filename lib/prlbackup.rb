@@ -13,9 +13,9 @@ module PrlBackup
 
   # Run the command and log the last line from stdout unless --dry-run.
   # @return [String] stdout of the comand.
-  def command!(*args)
+  def conditionally_run(*args)
     unless PrlBackup.config[:dry_run]
-      output = command(*args)
+      output = run(*args)
       logger.info(output.split("\n").last)
     else
       output = ''
@@ -27,7 +27,7 @@ module PrlBackup
   # Run the command until it is finished.
   # @Note This will even run when option --dry-run is selected!
   # @return [String] stdout of the comand.
-  def command(*args)
+  def run(*args)
     logger.info("Running `#{args.shelljoin}`...") if PrlBackup.config[:verbose]
     output = `#{args.shelljoin} 2>&1`
     status = $?
