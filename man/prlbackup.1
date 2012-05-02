@@ -48,7 +48,7 @@ Display commands before executing them\.
 .
 .TP
 \fB\-n\fR, \fB\-\-dry\-run\fR
-Don\'t do anything with the VMs, just pretend to\.
+Don\'t perform actions with an impact on VMs (display them instead)\.
 .
 .TP
 \fB\-k\fR \fInumber_of_full_backups\fR, \fB\-\-keep\-only\fR \fInumber_of_full_backups\fR
@@ -120,13 +120,13 @@ $ prlbackup \-\-all \-\-exclude Delta Echo
 .IP "" 0
 .
 .P
-Show which commands would have been run when backing up all VMs:
+Show what actions whould have been performed on which VMs:
 .
 .IP "" 4
 .
 .nf
 
-$ prlbackup \-\-dry\-run \-\-verbose \-\-all
+$ prlbackup \-\-dry\-run \-\-all
 .
 .fi
 .
