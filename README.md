@@ -8,14 +8,14 @@ Installation
 
 Install it via [RubyGems](https://rubygems.org/gems/prlbackup):
 
-	gem install prlbackup
+    gem install prlbackup
 
 Usage
 -----
 
 Take a look at [prlbackup(1)](http://bjoernalbers.de/prlbackup/):
 
-  gem man prlbackup
+    gem man prlbackup
 
 Note on Patches/Pull Requests
 -----------------------------
