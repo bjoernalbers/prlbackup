@@ -44,6 +44,7 @@ module PrlBackup
 private
 
   def create_logger
+    STDOUT.sync = true
     l = Logger.new(STDOUT)
     l.formatter = proc { |severity, datetime, progname, msg| "prlbackup #{severity}: [#{self}] #{msg}\n" }
     l
