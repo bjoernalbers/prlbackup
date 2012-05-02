@@ -19,7 +19,7 @@ module PrlBackup
     option :verbose,
       :long         => '--verbose',
       :short        => '-v',
-      :description  => 'Be verbose.',
+      :description  => 'Display commands before executing them.',
       :boolean      => 'true',
       :default      => false
 

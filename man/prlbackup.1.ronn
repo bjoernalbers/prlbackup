@@ -35,7 +35,7 @@ Server is required.
     of this option.
 
   * `-v`, `--verbose`:
-    Show commands with an impact on the VMs prior to their execution.
+    Display commands before executing them.
 
   * `-n`, `--dry-run`:
     Don't do anything with the VMs, just pretend to.
