@@ -33,7 +33,7 @@ module PrlBackup
     option :dry_run,
       :long         => '--dry-run',
       :short        => '-n',
-      :description  => 'Don\'t perform actions with an impact on VMs (display them instead).',
+      :description  => 'Don\'t run commands with an impact on VMs (display them instead).',
       :boolean      => true,
       :default      => false
 

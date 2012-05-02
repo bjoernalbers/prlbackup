@@ -19,6 +19,7 @@ module PrlBackup
       logger.info(output.split("\n").last)
     else
       output = ''
+      logger.info("Dry-running `#{args.shelljoin}`...")
     end
     output
   end

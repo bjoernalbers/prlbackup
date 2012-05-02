@@ -37,3 +37,10 @@ Feature: Logging
     And the stdout should contain "prlctl stop" 
     And the stdout should contain "prlctl backup" 
     And the stdout should contain "prlctl start" 
+
+  Scenario: Display commands with VM impact with option --dry-run
+    When I run `prlbackup --dry-run "Windows XP"`
+    Then the stdout should contain "prlctl stop"
+    And the stdout should contain "prlctl backup"
+    And the stdout should contain "prlctl start"
+    But the stdout should not contain "prlctl list"

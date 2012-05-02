@@ -48,7 +48,10 @@ module PrlBackup
         @foo.command!.should eql('')
       end
 
-      it 'should log the action which would be performed'
+      it 'should log the command which would be performed' do
+        @foo.logger.should_receive(:info).with('Dry-running `some command`...')
+        @foo.command!('some', 'command')
+      end
     end
   end
 

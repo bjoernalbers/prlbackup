@@ -38,7 +38,7 @@ Server is required.
     Display commands before executing them.
 
   * `-n`, `--dry-run`:
-    Don't perform actions with an impact on VMs (display them instead).
+    Don't run commands with an impact on VMs (display them instead).
 
   * `-k` <number_of_full_backups>, `--keep-only` <number_of_full_backups>:
     Delete the oldest full backup(s) until only <number_of_full_backups> exist.
@@ -69,7 +69,8 @@ Backup all but not the given VMs:
 
     $ prlbackup --all --exclude Delta Echo
 
-Show what actions whould have been performed on which VMs:
+Show what commands (with VM impact) whould have been run when backing up
+all VMs:
 
     $ prlbackup --dry-run --all
 
