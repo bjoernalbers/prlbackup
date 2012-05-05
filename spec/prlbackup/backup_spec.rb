@@ -104,5 +104,12 @@ module PrlBackup
         first_backup.should < last_backup
       end
     end
+
+    describe '#to_s' do
+      it 'should display the backup time' do
+        backup = Backup.new(:time => '02/27/2012 13:11:32')
+        backup.to_s.should eql('Backup: 2012-02-27 13:11:32')
+      end
+    end
   end
 end

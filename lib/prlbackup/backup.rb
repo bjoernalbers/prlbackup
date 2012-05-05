@@ -58,5 +58,9 @@ module PrlBackup
     def <=>(other)
       time <=> other.time
     end
+
+    def to_s
+      "Backup: #{time.strftime('%Y-%m-%d %H:%M:%S')}"
+    end
   end
 end
