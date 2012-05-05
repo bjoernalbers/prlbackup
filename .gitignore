@@ -4,3 +4,4 @@
 Gemfile.lock
 pkg/*
 vendor/ruby
+man/prlbackup.1.html
