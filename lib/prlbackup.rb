@@ -1,9 +1,11 @@
 require 'mixlib/cli'
 require 'logger'
 require 'shellwords'
+require 'date'
 require 'prlbackup/version'
 require 'prlbackup/cli'
 require 'prlbackup/virtual_machine'
+require 'prlbackup/backup'
 
 module PrlBackup
   class << self
