@@ -11,4 +11,9 @@ RSpec::Core::RakeTask.new do |t|
   t.pattern = "./spec/**/*_spec.rb"
 end
 
+# Build the manpage.
+task :ronn do
+  sh "bundle exec ronn --manual='PRLBACKUP MANUAL' --style=toc man/prlbackup.1.ronn"
+end
+
 task :default => :features
