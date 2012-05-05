@@ -5,7 +5,7 @@ module PrlBackup
       include PrlBackup
 
       def all(uuid)
-        backup_list(uuid).split("\n").map { |b| create(b) }.compact
+        backup_list(uuid).split("\n").map { |b| create(b) }.compact.sort
       end
 
       def backup_list(uuid)
@@ -31,6 +31,7 @@ module PrlBackup
     end
 
     include PrlBackup
+    include Comparable
 
     attr_reader :properties
 
@@ -52,6 +53,10 @@ module PrlBackup
 
     def delete
       conditionally_run('prlctl', 'backup-delete', '--tag', uuid)
+    end
+
+    def <=>(other)
+      time <=> other.time
     end
   end
 end

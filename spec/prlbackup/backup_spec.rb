@@ -26,6 +26,15 @@ module PrlBackup
         Backup.stub(:create).and_return(nil, 'backup', nil)
         Backup.all(@uuid).should eql(['backup'])
       end
+
+      it 'should return the backups sorted' do
+        backup1 = Backup.new(:time => '02/27/2012 13:11:31')
+        backup2 = Backup.new(:time => '02/27/2012 13:11:32')
+        backup3 = Backup.new(:time => '02/27/2012 13:11:33')
+        Backup.stub(:create).and_return(backup2, backup3, backup1)
+        Backup.stub(:backup_list).and_return("line 1\nline 2\nline 3")
+        Backup.all(@uuid).should eql([backup1, backup2, backup3])
+      end
     end
 
     describe '.backup_list' do
@@ -85,6 +94,14 @@ module PrlBackup
         backup = Backup.new(:uuid => '{some-backup-uuid}')
         backup.should_receive(:conditionally_run).with('prlctl', 'backup-delete', '--tag', '{some-backup-uuid}')
         backup.delete
+      end
+    end
+
+    describe '#<=>' do
+      it 'should compare backups by time' do
+        first_backup = Backup.new(:time => '02/27/2012 13:11:32')
+        last_backup = Backup.new(:time => '02/27/2012 13:11:33')
+        first_backup.should < last_backup
       end
     end
   end
