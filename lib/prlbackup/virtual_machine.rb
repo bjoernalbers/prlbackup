@@ -38,8 +38,7 @@ module PrlBackup
 
     # Cleanup (delete) old backups.
     def cleanup
-      backups = full_backups
-      delete_backup(backups.shift) while backups.count > config[:keep_only]
+      full_backups.shift.delete while full_backups.count > config[:keep_only]
     end
 
     # Return the virtual machine's name.
@@ -97,14 +96,11 @@ module PrlBackup
       update_info[/^State:\s+stopped$/]
     end
 
-    # List of full backups for the virtual machine.
+    # Cached list of virtual machine's full backups.
+    # @return [Array<Backup>] full backups
     def full_backups
-      run('prlctl', 'backup-list', uuid).split("\n").map { |l| $1 if l[/^\{[a-f0-9-]+\}\s+(\{[a-f0-9-]+\})[^(\.\d+)]/] }.compact
+      @full_backups ||= Backup.all(uuid).select { |b| b.full? }
     end
 
-    # Delete the backup given by backup UUID.
-    def delete_backup(backup_uuid)
-      conditionally_run('prlctl', 'backup-delete', '--tag', backup_uuid)
-    end
   end
 end
