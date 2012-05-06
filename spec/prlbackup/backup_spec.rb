@@ -58,6 +58,12 @@ module PrlBackup
       end
     end
 
+    describe '.to_s' do
+      it 'should display the context' do
+        Backup.to_s.should eql('Backup')
+      end
+    end
+
     describe '#uuid' do
       it 'should return the backup uuid' do
         backup = Backup.new(:uuid => '{ae6565dd-7f8f-42cb-a088-8b1d98f5160b}')
@@ -109,6 +115,11 @@ module PrlBackup
       it 'should display the backup time' do
         backup = Backup.new(:time => '02/27/2012 13:11:32')
         backup.to_s.should eql('Backup: 2012-02-27 13:11:32')
+      end
+
+      it 'should fallback to "Unknown" when no time is available' do
+        backup = Backup.new(:time => 'unparsable time string')
+        backup.to_s.should eql('Backup: Unknown')
       end
     end
   end

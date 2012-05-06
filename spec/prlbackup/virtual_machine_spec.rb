@@ -57,6 +57,12 @@ module PrlBackup
       end
     end
 
+    describe '.to_s' do
+      it 'should display the context' do
+        VirtualMachine.to_s.should eql('VM')
+      end
+    end
+
     describe '#config' do
       it 'should return the global config' do
         PrlBackup.should_receive(:config).and_return({:foo => 'bar'})
@@ -228,12 +234,12 @@ module PrlBackup
     describe '#to_s' do
       it 'should return the name' do
         @vm.should_receive('name').and_return('name_of_the_vm')
-        @vm.to_s.should eql('name_of_the_vm')
+        @vm.to_s.should eql('VM: name_of_the_vm')
       end
 
       it 'should return "Unknown VM" if name is nil' do
         @vm.should_receive(:name).and_return(nil)
-        @vm.to_s.should eql('Unknown VM')
+        @vm.to_s.should eql('VM: Unknown')
       end
     end
   end
