@@ -48,7 +48,7 @@ module PrlBackup
     end
 
     def time
-      DateTime.parse(properties[:time])
+      DateTime.strptime(properties[:time], '%m/%d/%Y %H:%M:%S')
     end
 
     def full?
