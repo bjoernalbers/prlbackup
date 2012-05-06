@@ -18,6 +18,10 @@ module PrlBackup
         cmd = %w{prlctl list --all --output uuid}
         run(*cmd).split("\n").grep(/(\{[a-f0-9-]+\})/) { new($1) }
       end
+
+      def to_s
+        'VM'
+      end
     end
 
     # Initialize with a valid name or UUID from the virtual machine.
@@ -58,9 +62,9 @@ module PrlBackup
       uuid == other_vm.uuid
     end
 
-    # Return the name of the virtual machine.
+    # Return the virtual machine's name.
     def to_s
-      name || 'Unknown VM'
+      "VM: %s" % (name || 'Unknown')
     end
 
   private

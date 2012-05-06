@@ -28,6 +28,10 @@ module PrlBackup
         $/x
         new(:uuid => $2, :time => $4, :type => $5) if re.match(line)
       end
+
+      def to_s
+        'Backup'
+      end
     end
 
     include PrlBackup
@@ -59,8 +63,11 @@ module PrlBackup
       time <=> other.time
     end
 
+    # Display time of backup.
     def to_s
-      "Backup: #{time.strftime('%Y-%m-%d %H:%M:%S')}"
+      "#{self.class.to_s}: #{time.strftime('%Y-%m-%d %H:%M:%S')}"
+    rescue ArgumentError
+      "#{self.class.to_s}: Unknown"
     end
   end
 end
